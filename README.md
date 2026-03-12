@@ -1,1 +1,5 @@
-# alcohol-consumption-grupo4
+# Analisis de los factores determinantes en el consumo de alcohol en el mundo arabe (2000-2024)
+
+El consumo de alcohol en el mundo arabe representa un fenomeno complejo donde convergen tensiones culturales, mandatos religiosos y dinamicas de globalizacion. A diferencia de otras regiones, el comportamiento del consumo en medio oriente se mide por factores unicos: la religion, la apertura turistica y herencias culturales, que configuran un panorama distintivo del resto.
+
+En la presente investigacion se busca analizar cuales han sido los factores influyentes en el aumento o la disminucion del consumo de alcohol en las ultimas dos decadas en los 22 paises que conforman la region arabe, y cuales son las implicaciones sociales, religiosas, culturales, sanitarias, etc. que tienen variaciones en los niveles de consumo de alcohol per capita.
