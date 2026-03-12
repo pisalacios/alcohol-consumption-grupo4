@@ -11,3 +11,17 @@ df = df.rename(columns={'country':'Pais',
                         'upper_ci':'limite superior',
                         'ci_width':'rango'}
 )
+paises_arabes = [
+    'Saudi Arabia', 'Lebanon', 'Egypt', 'Morocco', 'Tunisia', 
+    'Qatar', 'Jordan', 'Kuwait', 'Bahrain', 'Algeria', 
+    'Oman', 'Syrian Arab Republic', 'Iraq', 'Libya', 
+    'State of Palestine', 'Sudan', 'Yemen', 'Mauritania', 
+    'Somalia', 'Djibouti', 'Comoros'
+]
+
+# Filtrar el dataframe
+df_filtrado = df[df['Pais'].isin(paises_arabes)]
+
+# Mostrar los primeros resultados para verificar
+print(df_filtrado.head(50))
+
