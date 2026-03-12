@@ -1,6 +1,6 @@
 import pandas as pd
 
-csv = ('C:\\Users\\USER\\Desktop\\alcohol-consumption-grupo4\\15. Alcohol consumption.csv')
+csv = ('https://raw.githubusercontent.com/pisalacios/alcohol-consumption-grupo4/refs/heads/main/15.%20Alcohol%20consumption.csv')
 
 df = pd.read_csv(csv)
 df = df.drop(columns=['sex','IndicatorCode','iso3'])
