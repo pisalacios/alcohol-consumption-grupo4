@@ -11,7 +11,7 @@ df = df.rename(columns={'country':'Pais',
                         'upper_ci':'limite superior',
                         'ci_width':'rango'}
 )
-paises_arabes = [
+paises_europeos = [
 'Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 
     'Bulgaria', 'Croatia', 'Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Finland', 
     'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 
@@ -22,7 +22,7 @@ paises_arabes = [
 ]
 df_euro_ordenado = df.sort_values(by=['Pais', 'año'])
 # Filtrar el dataframe
-df_filtrado = df_euro_ordenado[df_euro_ordenado['Pais'].isin(paises_arabes)]
+df_filtrado = df_euro_ordenado[df_euro_ordenado['Pais'].isin(paises_europeos)]
 
 # Mostrar los primeros resultados para verificar
 print(df_filtrado)
