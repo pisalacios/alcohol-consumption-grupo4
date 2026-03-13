@@ -12,16 +12,18 @@ df = df.rename(columns={'country':'Pais',
                         'ci_width':'rango'}
 )
 paises_arabes = [
-    'Saudi Arabia', 'Lebanon', 'Egypt', 'Morocco', 'Tunisia', 
-    'Qatar', 'Jordan', 'Kuwait', 'Bahrain', 'Algeria', 
-    'Oman', 'Syrian Arab Republic', 'Iraq', 'Libya', 
-    'State of Palestine', 'Sudan', 'Yemen', 'Mauritania', 
-    'Somalia', 'Djibouti', 'Comoros'
+'Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 
+    'Bulgaria', 'Croatia', 'Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Finland', 
+    'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 
+    'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova, Republic of', 
+    'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 
+    'Portugal', 'Romania', 'Russian Federation', 'Serbia', 'Slovakia', 
+    'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Ukraine', 'United Kingdom'
 ]
-
+df_euro_ordenado = df.sort_values(by=['Pais', 'año'])
 # Filtrar el dataframe
-df_filtrado = df[df['Pais'].isin(paises_arabes)]
+df_filtrado = df_euro_ordenado[df_euro_ordenado['Pais'].isin(paises_arabes)]
 
 # Mostrar los primeros resultados para verificar
-print(df_filtrado.head(50))
+print(df_filtrado)
 
