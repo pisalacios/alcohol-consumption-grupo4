@@ -21,9 +21,9 @@ paises_europeos = [
     'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Ukraine', 'United Kingdom'
 ]
 df_euro_ordenado = df.sort_values(by=['Pais', 'año'])
-# Filtrar el dataframe
+
 df_filtrado = df_euro_ordenado[df_euro_ordenado['Pais'].isin(paises_europeos)]
 
-# Mostrar los primeros resultados para verificar
+
 print(df_filtrado)
 
