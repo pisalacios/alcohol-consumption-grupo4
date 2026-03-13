@@ -22,8 +22,8 @@ paises_europeos = [
 ]
 df_euro_ordenado = df.sort_values(by=['Pais', 'año'])
 
-df_filtrado = df_euro_ordenado[df_euro_ordenado['Pais'].isin(paises_europeos)]
+dffiltrado = df_euro_ordenado[df_euro_ordenado['Pais'].isin(paises_europeos)]
 
 
-print(df_filtrado)
+print(dffiltrado)
 
