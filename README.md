@@ -4,7 +4,7 @@ El consumo de alcohol es un tema complejo que abarca desde lo social y cultural 
 
 En la presente investigación se busca analizar dichos factores para determinar de que manera afecta a la población europea el consumo de alcohol y como ha sido la evolución de la misma en las últimas dos décadas.
 
-##Objetivo General
+## Objetivo General
 "Evaluar de manera integral los patrones de consumo de alcohol en la población europea durante el periodo 2000-2022, mediante el análisis correlacional de indicadores socioeconómicos, sanitarios y medidas legislativas de la OMS, con el fin de determinar los principales motores de cambio en la conducta de consumo."
 
 ### Objetivos Especificos  
