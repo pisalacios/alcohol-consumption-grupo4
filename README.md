@@ -1,5 +1,17 @@
-# Analisis de los factores determinantes en el consumo de alcohol en el mundo arabe (2000-2024)
+# Analisis de los factores socioeconomicos y regulatorios que determinaron los patrones de consumo de alcohol en Europa (2000-2022)
 
-El consumo de alcohol en el mundo arabe representa un fenomeno complejo donde convergen tensiones culturales, mandatos religiosos y dinamicas de globalizacion. A diferencia de otras regiones, el comportamiento del consumo en medio oriente se mide por factores unicos: la religion, la apertura turistica y herencias culturales, que configuran un panorama distintivo del resto.
+El consumo de alcohol es un tema complejo que abarca desde lo social y cultural hasta implicaciones serias en la salud física y mental, del cual sus efectos  varían drásticamente dependiendo de la cantidad y la frecuencia del consumo. La relación que tienen las personas de Europa con el alcohol se ve determinada por aspectos culturales, socioeconómicos, sanitarios y políticas regulatorias.  
 
-En la presente investigacion se busca analizar cuales han sido los factores influyentes en el aumento o la disminucion del consumo de alcohol en las ultimas dos decadas en los 22 paises que conforman la region arabe, y cuales son las implicaciones sociales, religiosas, culturales, sanitarias, etc. que tienen variaciones en los niveles de consumo de alcohol per capita.
+En la presente investigación se busca analizar dichos factores para determinar de que manera afecta a la población europea el consumo de alcohol y como ha sido la evolución de la misma en las últimas dos décadas.
+
+## Objetivo General
+"Evaluar de manera integral los patrones de consumo de alcohol en la población europea durante el periodo 2000-2022, mediante el análisis correlacional de indicadores socioeconómicos, sanitarios y medidas legislativas de la OMS, con el fin de determinar los principales motores de cambio en la conducta de consumo."
+
+### Objetivos Especificos  
+
+• Determinar las variaciones y patrones en los niveles de consumo per cápita en Europa durante el periodo 2000-2022.
+
+• Estudiar el impacto de las medidas implementadas por los gobiernos europeos y la OMS en la reducción del consumo nocivo.
+
+• Evaluar de que manera y en qué medida han afectado los diferentes eventos socioeconómicos, culturales y sanitarios de los últimas dos décadas en el consumo de alcohol per cápita.
+
