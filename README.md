@@ -8,8 +8,10 @@ En la presente investigación se busca analizar como se comportan los niveles de
 
 Evaluar de manera comparativa los patrones de consumo de alcohol en la población europea en los años 2018, 2020 y 2022, analizando el impacto de la pandemia de COVID-19 para identificar cambios en la ingesta antes, durante y después de la crisis sanitaria.
 
-### Objetivos Especificos 
+### Objetivos Específicos 
 
--Examinar la transición de los entornos de consumo, analizando el desplazamiento de la ingesta de alcohol desde lugares públicos hacia el ámbito privado durante los confinamientos. 
+-Examinar como se dió la transición en Europa del consumo de alcohol desde espacios públicos hasta entornos privados durante los confinamientos.
 
--Determinar el impacto de la pandemia en el consumo de alcohol de la población europea, evaluando los posibles efectos positivos teniendo en cuenta el alcoholismo como un problema de salud pública.
+-Comparar los litros de alcohol puro per cápita consumidos en los años 2018, 2020 y 2022 para identificar si hubo un aumento o disminución neta en la ingesta total a nivel europeo.
+
+-Analizar de qué forma y en qué medida afectó el COVID-19 en los hábitos del consumo de alcohol de los europeos.
