@@ -1,4 +1,4 @@
-# Evolución del consumo de Alcohol en Europa: Impacto Antes, Durante y Despues de la Pandemia (2018, 2020 y 2022)
+# Evolución del consumo de Alcohol en Europa: Impacto Antes, Durante y Despues de la Pandemia (2018, 2020)
 
 El consumo de alcohol es un tema complejo que abarca desde lo social y cultural hasta implicaciones serias en la salud física y mental, del cual sus efectos  varían drásticamente dependiendo de la cantidad y la frecuencia del consumo. Durante la pandemia del COVID-19 la relación de las personas en el continente europeo con el consumo de alcohol se ve afectada por el confinamiento y las medidas de bioseguridad implementadas para evitar aglomeraciones y contagios masivos, lo que se traduce en una variación importante en los niveles del consumo en la población.
 
