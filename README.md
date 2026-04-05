@@ -11,7 +11,7 @@
  
 En la presente investigación se busca analizar como se comportan los niveles del consumo de alcohol en el continente europeo antes (2018), durante (2020) y después (2022) de la pandemia del COVID-19. 
 
-## Objetivo General
+### Objetivo General
 
 Evaluar de manera comparativa los patrones de consumo de alcohol en la población europea entre los años 2016 y 2022 analizando el impacto de la pandemia de COVID-19 para identificar cambios en la ingesta antes, durante y después de la crisis sanitaria.
 
