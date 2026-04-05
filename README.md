@@ -8,8 +8,7 @@
 
  Para el año 2022, con la flexibilización de las medidas sanitarias y la reapertura de los espacios públicos, el comportamiento del consumidor europeo entró en una fase de reajuste. Este periodo de "pospandemia" es critico para analizar si los incrementos en la frecuencia de consumo observados durante el aislamiento se consolidaron como hábitos crónicos o si regresaron a los niveles base de 2016-2019
 
- 
-En la presente investigación se busca analizar como se comportan los niveles del consumo de alcohol en el continente europeo antes (2018), durante (2020) y después (2022) de la pandemia del COVID-19. 
+En la presente investigación se busca analizar como se comportan los niveles del consumo de alcohol en el continente europeo antes (2016-2019) durante (2020) y después (2022) de la pandemia del COVID-19. 
 
 ### Objetivo General
 
