@@ -25,6 +25,9 @@ st.markdown("""
 En este dashboard interactivo podrás visualizar como fué el consumo anual de litros de 
 licor en diferentes paises de Europa por persona habitada
 """)
+
+st.divider()
+
     # Filtro de busqueda
 
 st.sidebar.header("Opciones de Visualización")
@@ -37,8 +40,23 @@ paises_seleccionados = st.sidebar.multiselect(
 )
 df_filtrado = alcohol[alcohol['pais'].isin(paises_seleccionados)]
 
-    # 1er cuadro de información
+    # Recuadros de información descriptiva básica
 
-sumatoria_total = df_filtrado['litros_por_persona'].sum()
-st.metric("Suma de litros p/p consumidos", f"{sumatoria_total:.2f}")
-st.caption("Sumatoria de litros consumidos en la seleción de la bsuqueda")
+st.subheader("📈 Resumen de la BBDD")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("#### 🍺Total Consumido")
+    sumatoria_total = df_filtrado['litros_por_persona'].sum() 
+    st.metric("Suma de litros de alcohol p/p", f"{sumatoria_total:.2f}")
+
+with col2:
+    st.markdown("#### 🚨Máximo Registrado")
+    max_alto = df_filtrado['limite_sup'].max()
+    st.metric("Límite superior más alto de un país", f"{max_alto:.2f}")
+
+with col3:
+    st.markdown("#### 📊Promedio Global")
+    promedio_consumo = df_filtrado['litros_por_persona'].mean()
+    st.metric("Promedio de litros de alcohol consumimos", f"{promedio_consumo:.2f}")
