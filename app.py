@@ -31,7 +31,7 @@ st.divider()
     # Filtro de busqueda
 
 st.sidebar.header("Opciones de Visualización")
-
+        # Países
 paises_disponibles = sorted(alcohol['pais'].unique())
 paises_seleccionados = st.sidebar.multiselect(
     "Selecciona los países:",
@@ -39,6 +39,21 @@ paises_seleccionados = st.sidebar.multiselect(
     default=paises_disponibles
 )
 df_filtrado = alcohol[alcohol['pais'].isin(paises_seleccionados)]
+
+        # Años
+años_disponibles = sorted(alcohol['año'].unique())
+rango_años = st.sidebar.select_slider(
+    "Selecciona el rango de años:",
+    options=años_disponibles,
+    value=(años_disponibles[0], años_disponibles[-1])
+)
+
+        # Combinando el filtro
+df_filtrado = alcohol[
+    (alcohol['pais'].isin(paises_seleccionados)) & 
+    (alcohol['año'] >= rango_años[0]) & 
+    (alcohol['año'] <= rango_años[1])
+]
 
     # Recuadros de información descriptiva básica
 
@@ -60,3 +75,6 @@ with col3:
     st.markdown("#### 📊Promedio Global")
     promedio_consumo = df_filtrado['litros_por_persona'].mean()
     st.metric("Promedio de litros de alcohol consumimos", f"{promedio_consumo:.2f}")
+
+st.divider()
+
