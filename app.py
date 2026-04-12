@@ -17,7 +17,7 @@ st.set_page_config(
 
 st.write("## Análisis del Consumo de Alcohol en Europa 🍷")
 st.markdown("""
-#### Impacto antes, durante y después de la pandemia del COVID-19
+#### Impacto Antes, Durante y Después de la Pandemia del COVID-19
 ---
 """)
 
@@ -78,3 +78,21 @@ with col3:
 
 st.divider()
 
+    # Gráfico 1
+
+st.subheader("🔍 Evolución del Cosumo de Alcohol de los Países")
+
+df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
+
+fig_1=px.line(
+    df_promedio, 
+    x="año", 
+    y="litros_por_persona",
+    markers=True,
+    line_shape="linear",
+    template="plotly_white",
+    labels={"litros_por_persona": "Promedio de Litros (p/p)", "año": "Año"},
+    title="Promedio General de los Países Seleccionados"
+)
+
+st.plotly_chart(fig_1, use_container_width=True)
