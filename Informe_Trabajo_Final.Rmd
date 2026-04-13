@@ -1,0 +1,233 @@
+---
+# --- Metadatos Básicos ---
+title: "Título del Trabajo Final"
+author:
+   - Isabella Palacios
+   - Mayerlin Otamendi
+date: "Abril 2026"
+
+# --- Metadatos Específicos de Plantilla ---
+degree: "Computación I"
+director: 
+  - Jesus Ochoa 
+  - Oliver Triveño
+lugar: "Caracas"
+facultad: 
+  - Facultad de Ciencias Económicas y Sociales
+  - Escuela de Estadistica y Ciencias Actuariales
+# Ruta al escudo (relativa al archivo .Rmd)
+escudo: "Latex/Classes/Escudos/faces"
+
+# --- Bibliografía ---
+bibliography: bibliografia.bib
+
+# --- Configuración de Salida ---
+output: 
+  pdf_document:
+    template: template.tex  # Llamamos al archivo de plantilla
+    keep_tex: true                 # Útil para ver errores si ocurren
+    toc: true                      # Generar índice
+    number_sections: true
+    citation_package: natbib       # Importante: forzar natbib porque tu plantilla lo usa
+
+# --- Resumen (Abstract) ---
+abstract: |
+  En el presente informe se realiza un análisis comparativo sobre el impacto de la pandemia en el consumo de alcohol per cápita en Europa. Se examina la tendencia del consumo de alcohol en la región europea antes (2016-2019), durante (2020) y después (2022) del COVID-19 para identificar las variaciones causadas por el mismo, aplicando técnicas de estadística descriptiva y visualización de datos con R.
+---
+
+```{r setup, include=FALSE}
+# Configuración global de chunks
+knitr::opts_chunk$set(
+  echo = FALSE,        # Mostrar código
+  warning = FALSE,    # Ocultar advertencias
+  message = FALSE,    # Ocultar mensajes de carga
+  fig.align = "center",
+  out.width = "90%",
+  fig.pos = "H",
+  out.extra = ""
+)
+
+# Cargar librerías necesarias
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(scales)
+```
+
+\chapter*{Introducción}
+
+La región europea ha mantenido históricamente los niveles más altos de consumo de alcohol per cápita en el mundo. Entre 2016 y 2019, la tendencia se caracterizó por una relativa estabilidad en la tendencia de consumo social, fuertemente arraigados en la cultura y la economía del continente. Sin embargo, la aparición del COVID-19 a finales de 2019 y su declaración como pandemia por la OMS en marzo de 2020 transformaron radicalmente este panorama.
+
+Durante el año 2020, las restricciones de movilidad y los confinamientos obligatorios en Europa provocaron el cierre masivo de la hostelería (bares, restaurantes y clubes). No obstante, la consideración del alcohol como un "bien esencial" en muchos países europeos permitió que los puntos de venta minorista y el comercio electrónico mantuvieran la disponibilidad del producto.
+
+Para el año 2022, con la flexibilización de las medidas sanitarias y la reapertura de los espacios públicos, el comportamiento del consumidor europeo entró en una fase de reajuste. Este periodo de "postpandemia" es crítico para analizar si las variaciones en la frecuencia de consumo observados durante el aislamiento se consolidaron como hábitos crónicos o si regresaron a los niveles base de 2016-2019.
+
+En la presente investigación se busca analizar cómo se comportan los niveles del consumo de alcohol en el continente europeo antes (2016-2019), durante (2020) y después (2022) de la pandemia del COVID-19, analizando la varianza del consumo de alcohol per cápita entre los países y comparar sus promedios postpandemia con el promedio del consumo antes de la misma.
+
+\section*{Estructura del Informe}
+
+Este documento técnico se encuentra estructurado en cinco capítulos fundamentales:
+
+\begin{itemize}
+    \item En el \textbf{Capítulo I}, se plantea la problemática de la imprevisibilidad financiera en el desarrollo de software de entretenimiento, formulando las preguntas de investigación y delimitando el alcance temporal y geográfico del estudio.
+    
+    \item El \textbf{Capítulo II} establece el Marco Teórico, definiendo los conceptos estadísticos clave como esperanza matemática, series de tiempo y correlación, necesarios para la interpretación de los datos.
+    
+    \item El \textbf{Capítulo III} describe el Marco Metodológico, detallando el proceso de limpieza de datos (ETL), las pruebas de hipótesis y los algoritmos utilizados para validar la calidad de la información.
+    
+    \item El \textbf{Capítulo IV} presenta el Análisis de Resultados, donde se exhiben las tablas y gráficos generados dinámicamente, discutiendo los hallazgos sobre la concentración de mercado (Ley de Pareto) y la dinámica temporal.
+    
+    \item Finalmente, en el \textbf{Capítulo V}, se exponen las Conclusiones y Recomendaciones estratégicas derivadas del análisis cuantitativo, orientadas a la toma de decisiones basada en datos (\textit{Data-Driven Decision Making}).
+\end{itemize}
+
+\chapter{Planteamiento del Problema}
+Describir planteamiento del problema\
+
+Argumento final. Debido a esto, se plantea las siguientes preguntas de investigación:\
+
+
+\textbf{1.}	Pregunta1\
+
+\textbf{2.}	Pregunta2\
+
+\textbf{3.}	Pregunta3\
+
+
+\section{Justificación}
+
+Justificación del trabajo de investigación\
+
+\section{Objetivos}
+ 
+\subsection{Objetivo General}
+\begin{itemize}
+  \item{Describir objetivo general del trabajo de investigación}
+\end{itemize}
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+  \item{Describir objetivo 1 del trabajo de investigación}
+  \item{Describir objetivo 2 del trabajo de investigación}
+  \item{Describir objetivo 3 del trabajo de investigación}
+\end{itemize}
+
+
+\section{Cobertura}
+
+\subsection{Horizontal}
+
+Describir la cobertura Horizontal del trabajo de investigación\
+
+\begin{table}[ht]
+\centering
+\caption{Variables consideradas} 
+\resizebox{10cm}{!} {
+\begin{tabular}{ccc}
+  \hline
+\ \ \ \ \ NOMBRE DE LA VARIABLE \\ 
+  \hline
+   VARIABLE 1 \\ 
+VARIABLE 2\\ 
+VARIABLE n\\ 
+   \hline
+\end{tabular}
+}
+\end{table}
+
+\subsection{Vertical}
+
+Describir la cobertura Vertical del trabajo de investigación
+
+
+\section{Periodo de Referencia}
+
+Describir la fuente y el Periodo de Referencia utilizado en el trabajo de investigación
+
+\section{Variables}
+
+Describir la variable en estudio en el trabajo de investigación
+
+\chapter{Marco Teórico}
+
+
+\section{Bases Teóricas}
+
+Resumen de las bases teoricas explicadas en el capitulo y su importancia\
+
+\subsection{Definición 1}
+
+Descripción de la definición 1\
+
+\subsection{Definición 2}
+
+Descripción de la definición 2\
+
+\subsection{Definición n}
+
+Descripción de la definición n\
+
+
+\chapter{Marco Metódico}
+En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada en el marco teórico, así como las fuentes de datos.
+ 
+\section{Bases metódicas utilizadas en el trabajo de investigación}
+
+Desarrollo\
+
+\subsection{Item 1}
+
+Descripción\
+
+\subsection{Item 2}
+
+Descripción\
+
+\subsubsection{Item 2.2}
+
+Descripción\
+
+\subsection{Item n}
+
+Descripción\
+
+\chapter{Análisis de Resultados}
+
+{\small Este capítulo presenta los resultados obtenidos al aplicar las metodologías descritas en el capítulo anterior, así como del análisis estadístico descriptivo de las variables estudiadas y las ventajas y desventajas al aplicar dichos tests.}
+
+\section{Presentación de resultados 1}
+
+Descripción\
+
+\section{Presentación de resultados 2}
+
+Descripción\
+
+\section{Presentación de resultados n}
+
+Descripción\
+
+\chapter{Conclusiones y Recomendaciones}
+
+\textbf{1.-} Conclusion 1 del trabajo de investigación.\
+
+\textbf{Recomendación} 
+Recomendación 1 del trabajo de investigación.\
+
+\textbf{2.-} Conclusion 2 del trabajo de investigación.\
+
+\textbf{Recomendación} 
+Recomendación 2 del trabajo de investigación.\
+
+\textbf{n.-} Conclusion n del trabajo de investigación.\
+
+\textbf{Recomendación} Recomendación n del trabajo de investigación.\
+
+\appendix
+\renewcommand{\thechapter}{\Alph{chapter}}
+
+\chapter{Anexo A}
+
+\chapter{Anexo B}
+
+\chapter{Anexo C}
+
