@@ -86,20 +86,38 @@ with tab1:
 with tab2:
     st.subheader("🔍 Evolución del Consumo de Alcohol de los Países")       # titulo
 
-    # Gráfico 1 - Gráficos de Lineas
+    col_izq, col_der = st.columns([3, 1])                                   # distribucion
 
-    df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
+    # Gráfico 1 IZQUIERDA - Gráficos de lineas
+    
+    with col_izq:
+        st.markdown("##### Promedio General de los Países")
+        
+        df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
 
-    fig_1=px.line(
-        df_promedio, 
-        x="año", 
-        y="litros_por_persona",
-        markers=True,
-        line_shape="linear",
-        template="plotly_white",
-        color_discrete_sequence=["#045dc2"], 
-        labels={"litros_por_persona": "Promedio de Litros (p/p)", "año": "Año"},
-        title="Promedio General de los Países Seleccionados"
-        )
+        fig_1=px.line(
+            df_promedio, 
+            x="año", 
+            y="litros_por_persona",
+            markers=True,
+            line_shape="linear",
+            template="plotly_white",
+            color_discrete_sequence=["#045dc2"], 
+            labels={"litros_por_persona": "Promedio de Litros (p/p)", "año": "Año"},
+            )
 
-    st.plotly_chart(fig_1, use_container_width=True)
+        st.plotly_chart(fig_1, use_container_width=True)
+
+    # Tabla DERECHA - Promedios de temporadas 
+
+    with col_der:
+        st.markdown("##### Promedios por Temporada")
+        
+        promedio_antes = df_filtrado[df_filtrado['temporada'] == 'Antes']['litros_por_persona'].mean()
+        promedio_durante = df_filtrado[df_filtrado['temporada'] == 'Durante']['litros_por_persona'].mean()
+        promedio_despues = df_filtrado[df_filtrado['temporada'] == 'Después']['litros_por_persona'].mean()
+
+        st.metric("Antes (2016-2019)", f"{promedio_antes:.2f} L")
+        st.metric("Durante (2020)", f"{promedio_durante:.2f} L")
+        st.metric("Después (2022)", f"{promedio_despues:.2f} L")
+
