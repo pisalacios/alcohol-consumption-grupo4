@@ -1,0 +1,5 @@
+    # Cambiando colores de la página
+
+[theme]
+primaryColor = "#045dc2"
+secondaryBackgroundColor = "#d8d8fc"

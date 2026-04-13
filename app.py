@@ -8,7 +8,7 @@ alcohol = pd.read_excel("alcohol_filtrado.xlsx")
     # Configuración de la página
 
 st.set_page_config(
-    page_title="Alcolismo Europa Dashboard Interactivo", 
+    page_title="Alcoholismo Europa Dashboard Interactivo", 
     layout="wide",
     page_icon="Logo de la Web.png"
 )
@@ -22,11 +22,9 @@ st.markdown("""
 """)
 
 st.markdown("""
-En este dashboard interactivo podrás visualizar como fué el consumo anual de litros de 
-licor en diferentes paises de Europa por persona habitada
+En este dashboard interactivo podrás visualizar y comprender el consumo de alcohol
+en los paises de la región de europa
 """)
-
-st.divider()
 
     # Filtro de busqueda
 
@@ -38,7 +36,6 @@ paises_seleccionados = st.sidebar.multiselect(
     options=paises_disponibles,
     default=paises_disponibles
 )
-df_filtrado = alcohol[alcohol['pais'].isin(paises_seleccionados)]
 
         # Años
 años_disponibles = sorted(alcohol['año'].unique())
@@ -55,44 +52,101 @@ df_filtrado = alcohol[
     (alcohol['año'] <= rango_años[1])
 ]
 
-    # Recuadros de información descriptiva básica
-
-st.subheader("📈 Resumen de la BBDD")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("#### 🍺Total Consumido")
-    sumatoria_total = df_filtrado['litros_por_persona'].sum() 
-    st.metric("Suma de litros de alcohol p/p", f"{sumatoria_total:.2f}")
-
-with col2:
-    st.markdown("#### 🚨Máximo Registrado")
-    max_alto = df_filtrado['limite_sup'].max()
-    st.metric("Límite superior más alto de un país", f"{max_alto:.2f}")
-
-with col3:
-    st.markdown("#### 📊Promedio Global")
-    promedio_consumo = df_filtrado['litros_por_persona'].mean()
-    st.metric("Promedio de litros de alcohol consumimos", f"{promedio_consumo:.2f}")
-
-st.divider()
-
-    # Gráfico 1
-
-st.subheader("🔍 Evolución del Cosumo de Alcohol de los Países")
-
-df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
-
-fig_1=px.line(
-    df_promedio, 
-    x="año", 
-    y="litros_por_persona",
-    markers=True,
-    line_shape="linear",
-    template="plotly_white",
-    labels={"litros_por_persona": "Promedio de Litros (p/p)", "año": "Año"},
-    title="Promedio General de los Países Seleccionados"
+    # Separando por pestañas los resultados y gráficos
+tab1, tab2, tab3 = st.tabs(
+    [
+        "**Métricas Principales**", 
+        "**Evolución Anula**",
+        "**Análisis de Dispersión**"
+    ]
 )
 
-st.plotly_chart(fig_1, use_container_width=True)
+with tab1:
+    st.subheader("📈 Resumen de los Indicadores del Consumo de Alcohol")      # titulo
+    
+    with st.container(border=True):                                            # distribucion
+        col1, col2, col3 = st.columns(3)
+
+            # Recuadros de información descriptiva básica
+
+        with col1:
+            st.markdown("#### 🍺Consumo Total en Europa")
+            sumatoria_total = df_filtrado['litros_por_persona'].sum() 
+            st.metric("Suma de litros p/p acumulados", f"{sumatoria_total:.2f}")
+
+        with col2:
+            st.markdown("#### 🌍Países Seleccionados")
+            cantidad_paises = df_filtrado['pais'].nunique()
+            st.metric("Total de países en la vista", f"{cantidad_paises}")
+
+        with col3:
+            st.markdown("#### 📊Promedio de Litros por Persona")
+            promedio_consumo = df_filtrado['litros_por_persona'].mean()
+            st.metric("Promedio de litros de alcohol anuales consumidos", f"{promedio_consumo:.2f}")
+
+with tab2:
+    st.subheader("🔍 Evolución del Consumo de Alcohol de los Países")       # titulo
+
+    col_izq, col_der = st.columns([3, 1])                                   # distribucion
+
+    # Gráfico 1 IZQUIERDA - Gráficos de lineas
+
+    with col_izq:
+        st.markdown("##### Promedio General de los Países")         # titulo del gráfico
+        
+        df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
+
+        fig_1=px.line(
+            df_promedio, 
+            x="año", 
+            y="litros_por_persona",
+            markers=True,
+            line_shape="linear",
+            template="plotly_white",
+            color_discrete_sequence=["#045dc2"], 
+            labels={"litros_por_persona": "Promedio de Litros (p/p)", "año": "Año"},
+            )
+
+        st.plotly_chart(fig_1, use_container_width=True)
+
+    # Tabla DERECHA - Promedios de temporadas 
+
+    with col_der:
+        st.markdown("##### Promedios por Temporada")        # titulo de la tabla
+        
+        promedio_antes = df_filtrado[df_filtrado['temporada'] == 'Antes']['litros_por_persona'].mean()
+        promedio_durante = df_filtrado[df_filtrado['temporada'] == 'Durante']['litros_por_persona'].mean()
+        promedio_despues = df_filtrado[df_filtrado['temporada'] == 'Después']['litros_por_persona'].mean()
+
+        st.metric("Antes (2016-2019)", f"{promedio_antes:.2f} L")
+        st.metric("Durante (2020)", f"{promedio_durante:.2f} L")
+        st.metric("Después (2022)", f"{promedio_despues:.2f} L")
+
+with tab3:
+    st.subheader("📦 Distribución del Consumo por temporada Pandémica")       # titulo
+
+    st.markdown("##### Dispersión del Consumo de Alcohol en Europa")        # titulo del gráfico
+
+        # Filtramos para al excluir 2021 y quedarnos con las temporadas de estudio
+    df_box = df_filtrado[df_filtrado['temporada'].isin(['Antes', 'Durante', 'Después'])]
+
+    # Gráfico 2 - Diagrama de caja
+
+    fig_box = px.box(
+        df_box,
+        x="temporada",
+        y="litros_por_persona",
+        color="temporada",
+        notched=True,
+        template="plotly_dark",
+        color_discrete_map={            # Tonos de azul para mantener la estética
+            "Antes": "#045dc2",
+            "Durante": "#50a1ff",
+            "Después": "#022d5e"
+        },
+        category_orders={"temporada": ["Antes", "Durante", "Después"]},     # Forzamos el orden de la vista
+        labels={"litros_por_persona": "Consumo (Litros por Persona)", "temporada": "Periodo de la Pandemia"},
+    )
+
+    st.plotly_chart(fig_box, use_container_width=True)
+
