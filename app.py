@@ -8,7 +8,7 @@ alcohol = pd.read_excel("alcohol_filtrado.xlsx")
     # Configuración de la página
 
 st.set_page_config(
-    page_title="Alcolismo Europa Dashboard Interactivo", 
+    page_title="Alcoholismo Europa Dashboard Interactivo", 
     layout="wide",
     page_icon="Logo de la Web.png"
 )
@@ -22,8 +22,8 @@ st.markdown("""
 """)
 
 st.markdown("""
-En este dashboard interactivo podrás visualizar como fué el consumo anual de litros de 
-licor en diferentes paises de Europa por persona habitada
+En este dashboard interactivo podrás visualizar y comprender el consumo de alcohol
+en los paises de la región de europa
 """)
 
 st.divider()
@@ -38,7 +38,6 @@ paises_seleccionados = st.sidebar.multiselect(
     options=paises_disponibles,
     default=paises_disponibles
 )
-df_filtrado = alcohol[alcohol['pais'].isin(paises_seleccionados)]
 
         # Años
 años_disponibles = sorted(alcohol['año'].unique())
@@ -62,19 +61,19 @@ st.subheader("📈 Resumen de la BBDD")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown("#### 🍺Total Consumido")
+    st.markdown("#### 🍺Consumo Total en Europa")
     sumatoria_total = df_filtrado['litros_por_persona'].sum() 
-    st.metric("Suma de litros de alcohol p/p", f"{sumatoria_total:.2f}")
+    st.metric("Suma de litros p/p acumulados", f"{sumatoria_total:.2f}")
 
 with col2:
-    st.markdown("#### 🚨Máximo Registrado")
-    max_alto = df_filtrado['limite_sup'].max()
-    st.metric("Límite superior más alto de un país", f"{max_alto:.2f}")
+    st.markdown("#### 🌍Países Seleccionados")
+    cantidad_paises = df_filtrado['pais'].nunique()
+    st.metric("Total de países en la vista", f"{cantidad_paises}")
 
 with col3:
-    st.markdown("#### 📊Promedio Global")
+    st.markdown("#### 📊Promedio de Litros por Persona")
     promedio_consumo = df_filtrado['litros_por_persona'].mean()
-    st.metric("Promedio de litros de alcohol consumimos", f"{promedio_consumo:.2f}")
+    st.metric("Promedio de litros de alcohol anuales consumidos", f"{promedio_consumo:.2f}")
 
 st.divider()
 
