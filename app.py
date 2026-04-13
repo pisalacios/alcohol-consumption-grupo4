@@ -53,10 +53,11 @@ df_filtrado = alcohol[
 ]
 
     # Separando por pestañas los resultados y gráficos
-tab1, tab2 = st.tabs(
+tab1, tab2, tab3 = st.tabs(
     [
         "**Métricas Principales**", 
-        "**Evolución Anula**"
+        "**Evolución Anula**",
+        "**Análisis de Dispersión**"
     ]
 )
 
@@ -89,9 +90,9 @@ with tab2:
     col_izq, col_der = st.columns([3, 1])                                   # distribucion
 
     # Gráfico 1 IZQUIERDA - Gráficos de lineas
-    
+
     with col_izq:
-        st.markdown("##### Promedio General de los Países")
+        st.markdown("##### Promedio General de los Países")         # titulo del gráfico
         
         df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
 
@@ -111,7 +112,7 @@ with tab2:
     # Tabla DERECHA - Promedios de temporadas 
 
     with col_der:
-        st.markdown("##### Promedios por Temporada")
+        st.markdown("##### Promedios por Temporada")        # titulo de la tabla
         
         promedio_antes = df_filtrado[df_filtrado['temporada'] == 'Antes']['litros_por_persona'].mean()
         promedio_durante = df_filtrado[df_filtrado['temporada'] == 'Durante']['litros_por_persona'].mean()
@@ -120,4 +121,32 @@ with tab2:
         st.metric("Antes (2016-2019)", f"{promedio_antes:.2f} L")
         st.metric("Durante (2020)", f"{promedio_durante:.2f} L")
         st.metric("Después (2022)", f"{promedio_despues:.2f} L")
+
+with tab3:
+    st.subheader("📦 Distribución del Consumo por temporada Pandémica")       # titulo
+
+    st.markdown("##### Dispersión del Consumo de Alcohol en Europa")        # titulo del gráfico
+
+        # Filtramos para al excluir 2021 y quedarnos con las temporadas de estudio
+    df_box = df_filtrado[df_filtrado['temporada'].isin(['Antes', 'Durante', 'Después'])]
+
+    # Gráfico 2 - Diagrama de caja
+
+    fig_box = px.box(
+        df_box,
+        x="temporada",
+        y="litros_por_persona",
+        color="temporada",
+        notched=True,
+        template="plotly_dark",
+        color_discrete_map={            # Tonos de azul para mantener la estética
+            "Antes": "#045dc2",
+            "Durante": "#50a1ff",
+            "Después": "#022d5e"
+        },
+        category_orders={"temporada": ["Antes", "Durante", "Después"]},     # Forzamos el orden de la vista
+        labels={"litros_por_persona": "Consumo (Litros por Persona)", "temporada": "Periodo de la Pandemia"},
+    )
+
+    st.plotly_chart(fig_box, use_container_width=True)
 
