@@ -26,8 +26,6 @@ En este dashboard interactivo podrás visualizar y comprender el consumo de alco
 en los paises de la región de europa
 """)
 
-st.divider()
-
     # Filtro de busqueda
 
 st.sidebar.header("Opciones de Visualización")
@@ -54,44 +52,54 @@ df_filtrado = alcohol[
     (alcohol['año'] <= rango_años[1])
 ]
 
-    # Recuadros de información descriptiva básica
-
-st.subheader("📈 Resumen de la BBDD")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("#### 🍺Consumo Total en Europa")
-    sumatoria_total = df_filtrado['litros_por_persona'].sum() 
-    st.metric("Suma de litros p/p acumulados", f"{sumatoria_total:.2f}")
-
-with col2:
-    st.markdown("#### 🌍Países Seleccionados")
-    cantidad_paises = df_filtrado['pais'].nunique()
-    st.metric("Total de países en la vista", f"{cantidad_paises}")
-
-with col3:
-    st.markdown("#### 📊Promedio de Litros por Persona")
-    promedio_consumo = df_filtrado['litros_por_persona'].mean()
-    st.metric("Promedio de litros de alcohol anuales consumidos", f"{promedio_consumo:.2f}")
-
-st.divider()
-
-    # Gráfico 1
-
-st.subheader("🔍 Evolución del Cosumo de Alcohol de los Países")
-
-df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
-
-fig_1=px.line(
-    df_promedio, 
-    x="año", 
-    y="litros_por_persona",
-    markers=True,
-    line_shape="linear",
-    template="plotly_white",
-    labels={"litros_por_persona": "Promedio de Litros (p/p)", "año": "Año"},
-    title="Promedio General de los Países Seleccionados"
+    # Separando por pestañas los resultados y gráficos
+tab1, tab2 = st.tabs(
+    [
+        "**Métricas Principales**", 
+        "**Evolución Anula**"
+    ]
 )
 
-st.plotly_chart(fig_1, use_container_width=True)
+with tab1:
+    st.subheader("📈 Resumen de los Indicadores del Consumo de Alcohol")      # titulo
+    
+    with st.container(border=True):                                            # distribucion
+        col1, col2, col3 = st.columns(3)
+
+            # Recuadros de información descriptiva básica
+
+        with col1:
+            st.markdown("#### 🍺Consumo Total en Europa")
+            sumatoria_total = df_filtrado['litros_por_persona'].sum() 
+            st.metric("Suma de litros p/p acumulados", f"{sumatoria_total:.2f}")
+
+        with col2:
+            st.markdown("#### 🌍Países Seleccionados")
+            cantidad_paises = df_filtrado['pais'].nunique()
+            st.metric("Total de países en la vista", f"{cantidad_paises}")
+
+        with col3:
+            st.markdown("#### 📊Promedio de Litros por Persona")
+            promedio_consumo = df_filtrado['litros_por_persona'].mean()
+            st.metric("Promedio de litros de alcohol anuales consumidos", f"{promedio_consumo:.2f}")
+
+with tab2:
+    st.subheader("🔍 Evolución del Consumo de Alcohol de los Países")       # titulo
+
+    # Gráfico 1 - Gráficos de Lineas
+
+    df_promedio = df_filtrado.groupby('año')['litros_por_persona'].mean().reset_index()
+
+    fig_1=px.line(
+        df_promedio, 
+        x="año", 
+        y="litros_por_persona",
+        markers=True,
+        line_shape="linear",
+        template="plotly_white",
+        color_discrete_sequence=["#045dc2"], 
+        labels={"litros_por_persona": "Promedio de Litros (p/p)", "año": "Año"},
+        title="Promedio General de los Países Seleccionados"
+        )
+
+    st.plotly_chart(fig_1, use_container_width=True)
