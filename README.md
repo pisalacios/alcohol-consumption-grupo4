@@ -2,13 +2,15 @@
 
 # Introducción
 
- La región Europea ha mantenido históricamente los niveles más altos de consumo de alcohol per cápita en el mundo. Entre 2016 y 2019, la tendecia se caracterizó por una relativa estabilidad en los hábitos de consumo social, fuertemente arraigados en la cultura y la economía del continente. Sin embargo, la aparición del COVID-19 a finales de 2019 y su declaración como pandemia por la OMS en marzo de 2020 transformaron radicalmente este panorama.
+ La región europea ha mantenido históricamente los niveles más altos de consumo de alcohol per cápita en el mundo. Entre 2016 y 2019, la tendencia se caracterizó por una relativa estabilidad en la tendencia de consumo social, fuertemente arraigados en la cultura y la economía del continente. Sin embargo, la aparición del COVID-19 a finales de 2019 y su declaración como pandemia por la OMS en marzo de 2020 transformaron radicalmente este panorama.
+ 
+Durante el año 2020, las restricciones de movilidad y los confinamientos obligatorios en Europa provocaron el cierre masivo de la hostelería (bares, restaurantes y clubes). No obstante, la consideración del alcohol como un "bien esencial" en muchos países europeos permitió que los puntos de venta minorista y el comercio electrónico mantuvieran la disponibilidad del producto.
 
- Durante el año 2020, las restricciones de movilidad y los confinamientos obligatorios en Europa provocaron el cierre masivo de la hostelería (bares, restaurantes y clubes). No obstante, la consideració del alcohol como un "bien esencial" en muchos países europeos permitió que los puntos de venta minorista y el comercio electrónico mantuvieran la disponibilidad del producto 
+Para el año 2022, con la flexibilización de las medidas sanitarias y la reapertura de los espacios públicos, el comportamiento del consumidor europeo entró en una fase de reajuste. Este periodo de "postpandemia" es crítico para analizar si las variaciones en la frecuencia de consumo observados durante el aislamiento se consolidaron como hábitos crónicos o si regresaron a los niveles base de 2016-2019.
 
- Para el año 2022, con la flexibilización de las medidas sanitarias y la reapertura de los espacios públicos, el comportamiento del consumidor europeo entró en una fase de reajuste. Este periodo de "pospandemia" es critico para analizar si los incrementos en la frecuencia de consumo observados durante el aislamiento se consolidaron como hábitos crónicos o si regresaron a los niveles base de 2016-2019
+En la presente investigación se busca analizar cómo se comportan los niveles del consumo de alcohol en el continente europeo antes (2016-2019), durante (2020) y después (2022) de la pandemia del COVID-19, analizando los cambios del consumo de alcohol per cápita entre los países y comparar sus promedios postpandemia con el promedio del consumo antes de la misma.
 
-En la presente investigación se busca analizar como se comportan los niveles del consumo de alcohol en el continente europeo antes (2016-2019) durante (2020) y después (2022) de la pandemia del COVID-19. 
+
 
 ### Objetivo General
 
