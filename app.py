@@ -165,15 +165,15 @@ with tab3:
             f"incluyendo **{cantidad_paises}** países seleccionados.")
 
 with tab4:
-    st.subheader("🔥Ranking de Países con Mayor Consumo")
+    st.subheader("🔥Ranking de Países con Mayor Consumo de Litros de Alcohol (p/p)")
 
         # Añadiendo a los filtro un dezlizable para el ranking
-    n_top = st.sidebar.slider("Número de países para el ranking:", 1, 10, 5)
+    n_top = st.sidebar.slider("Número de países para el ranking:", 1, 10, 5)    # mostrará por defecto top 5
         # Añadiendo al filtro para seleccionar la temporada de la pandemia
     periodo_seleccionado = st.sidebar.radio(
         "Seleccionar periodo para el ranking:",
         options=["Antes", "Durante", "Después"],
-        index=0 # Por defecto, mostrará "Antes"
+        index=1     # mostrará por defecto "durante"
     )
 
         #  Mostrar solo la temporada durante (media de los distintos valores de los registros)
@@ -190,13 +190,33 @@ with tab4:
         y='pais',
         orientation='h',                # Mostar en horizontal
         color='litros_por_persona',
-        color_continuous_scale='Blues',
+        color_continuous_scale=['#ef5350', '#d32f2f', '#b30000'],
         template="plotly_dark",
         labels={'litros_por_persona': 'Promedio de Litros (p/p)', 'pais': 'País'},
+        text_auto='.1f'                 # para redondear solo un decimal en los valores
     )
+
+# Configuraciones extras del gáfico de la leyenda y ejes
+    fig_bar.update_layout(
+        showlegend=False,
+        coloraxis_showscale=False,
+        font=dict(color="black"),           # numeros de valores del gráfico en negro
+        yaxis=dict(
+            tickfont=dict(color="black")    # letras del eje Y negro
+        ),
+        xaxis=dict(
+            tickfont=dict(color="black")    # letras del eje X negro
+        )
+    )
+        # para poner los balores al lado de su respectiva barra
+    fig_bar.update_traces(textposition='outside')   
 
         # Invirtiendo eje Y para que sea desendente 
     fig_bar.update_layout(yaxis={'categoryorder':'total ascending'})
 
     st.plotly_chart(fig_bar, use_container_width=True)
+
+            # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros de Ranking:** Mostrando el Top **{n_top}** países "
+            f"durante el periodo **{periodo_seleccionado}**.")
     
