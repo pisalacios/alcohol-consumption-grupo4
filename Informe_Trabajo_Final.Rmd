@@ -1,45 +1,50 @@
 ---
-title: "Título del Trabajo Final"
-date: "Abril 2026"
-output:
+output: 
   pdf_document:
-    latex_engine: xelatex
-    keep_tex: true                 # Útil para ver errores si ocurren
-    toc: true                      # Generar índice
     number_sections: true
-    citation_package: natbib       # Importante: forzar natbib porque tu plantilla lo usa
+    latex_engine: xelatex
+bibliography: referencias.bib
+link-citations: true
+nocite: '@*'
 ---
-\begin{center}
-    \textbf{UNIVERSIDAD CENTRAL DE VENEZUELA} \\
-    \textbf{Facultad de Ciencias Económicas y Sociales} \\
-    \textbf{Escuela de Estadística y Ciencias Actuariales} \\
-    
-    \vspace{3cm} % Espacio antes del título
-    
-    \Large \textbf{TÍTULO DEL TRABAJO FINAL} \\
-    \vspace{0.5cm}
-    \large Computación I \\
-    
-    \vspace{3cm} % Espacio antes de los nombres
-    
-    \textbf{Profesores:} \\
-    Jesus Ochoa \\
-    Oliver Triveño \\
-    
-    \vspace{1.5cm}
-    
-    \textbf{Autoras:} \\
-    Isabella Palacios \\
-    Mayerlin Otamendi \\
-    
-    \vfill % Empuja la fecha al final de la página
-    
-    Caracas, Abril de 2026
-\end{center}
+
+\begin{titlepage}
+    \centering
+    \large\textbf{UNIVERSIDAD CENTRAL DE VENEZUELA}\\
+    \large\textbf{Facultad de Ciencias Económicas y Sociales}\\
+    \large\textbf{Escuela de Estadística y Ciencias Actuariales}\\
+    \large\textbf{Computación I}\\[2.5cm]
+
+    \Huge\textbf{TENDENCIAS DEL CONSUMO DE ALCOHOL EN LA REGIÓN EUROPEA: UN ANÁLISIS COMPARATIVO PRE, DURANTE, POST PANDEMIA DE COVID-19}\\[0.5cm]
+    \LARGE\textbf{(2016-2022)}\\[3cm]
+
+    \begin{minipage}[t]{0.45\textwidth}
+        \flushleft \large
+        \textbf{Profesores:}\\
+        Jesus Ochoa\\
+        Oliver Triveño
+    \end{minipage}
+    \begin{minipage}[t]{0.45\textwidth}
+        \flushright \large
+        \textbf{Autoras:}\\
+        Isabella Palacios\\
+        Mayerlin Otamendi
+    \end{minipage}
+
+    \vfill
+    \large{Caracas, Abril de 2026}
+\end{titlepage}
 
 \newpage
 
-# Resumen {-}
+\renewcommand{\contentsname}{Índice General}
+\tableofcontents
+
+\newpage
+
+
+
+# Resumen
 
 En el presente informe se realiza un análisis comparativo sobre el impacto de la pandemia en el consumo de alcohol en Europa. Se examina la tendencia del consumo de alcohol en la región europea antes (2016-2019), durante (2020) y después (2022) del COVID-19 para identificar las variaciones causadas por el mismo, aplicando técnicas de estadística descriptiva y visualización de datos con R.
 
@@ -145,9 +150,13 @@ En cuanto a su cobertura vertical, el análisis profundiza en la evolución temp
 
 \subsection{El Consumo de Alcohol en Europa como Objeto de Estudio}
 
-El consumo de alcohol no es un fenómeno estático sino que responde a dinámicas de adaptación ante el estrés y el aislamiento social. Históricamente, la región europea ha registrado los niveles más altos de consumo de alcohol per cápita a nivel mundial. Este fenómeno no es solo una estadística de salud pública, sino que está profundamente arraigado en la cultura, las interacciones sociales y la economía del continente.\
 
-\subsection{Impacto dela Pandemia de COVID-19}
+El consumo de alcohol no es un fenómeno estático sino que responde a dinámicas de adaptación ante el estrés y el aislamiento social. Históricamente, la región europea ha registrado los niveles más altos de consumo de alcohol per cápita a nivel mundial. Este fenómeno no es solo una estadística de salud pública, sino que está profundamente arraigado en la cultura, las interacciones sociales y la economía del continente.
+
+
+Las cifras desveladas por la Organización Mundial de la Salud (OMS) en el reciente informe The European Health Report, actualizado cada tres años, sitúan el consumo del alcohol como uno de los grandes problemas de salud pública de la región europea de la OMS. De hecho, Europa lidera ya el consumo de alcohol en el mundo, con una media de 8,8 litros de alcohol puro por persona/año en 2020 (los hombres bebieron en promedio cuatro veces más que las mujeres). Es, por consiguiente, la zona de la OMS donde el alcohol tiene una mayor contribución a la mortalidad según los datos de la organización [@som360_alcohol_2025]. 
+
+\subsection{Impacto de la Pandemia de COVID-19}
 
 Entre 2016 y 2019, la tendencia se caracterizó por una relativa estabilidad en los patrones de consumo social. La aparición del COVID-19 a finales de 2019 у su posterior declaración como pandemia por la OMS en marzo de 2020 transformaron radicalmente este panorama. Las restricciones de movilidad y los confinamientos obligatorios provocaron el cierre masivo del sector de la hostelería, incluyendo bares, restaurantes y clubes. No obstante, en muchos países europeos, el alcohol fue considerado un "bien esencial", lo que permitió que los puntos de venta minorista y el comercio electrónico mantuvieran la disponibilidad del producto.\
 
@@ -357,14 +366,15 @@ ggplot(datos_outliers, aes(x = año_fact, y = litros_por_persona, fill = año_fa
 
 \section{Conclusiones y Recomendaciones}
 
+\subsection{Conclusiones}
 
+La realización de éste análisis comparativo sobre las tendencias del consumo de alcohol en la región europea, antes (2016-2019), durante (2020) y después (2022) de la pandemia, nos permitió abordar un tema de interés público desde una perspectiva que nadie menciona, puesto que Europa es el continente con el más alto consumo de alcohol, es interesante analizar si los niveles de ingesta se vieron afectados por la crisis sanitaria y de que manera esa afectación trasciende luego de que se supera el COVID-19.
 
-\textbf{n.-} Conclusion n del trabajo de investigación.\
+En la presentación de resultados pudimos observar con claridad como efectivamente la pandemia implicó cambios en los niveles de consumo, pero no afectó a Europa uniformemente, ya que habían países los cuales aumentaron su ingesta durante la pandemia, y eso claramente contrasta con el top 5 de países con las mayores caídas del consumo de alcohol en Europa durante 2020,  aún así todas éstas variaciones oscilan entre el -20% y 20% en cuanto al descenso y ascenso del consumo (si hablamos en porcentajes) con respecto al promedio del periodo (2016-2019), esto quiere decir que países en los que la tendencia del consumo en 2020 se revierte para 2022 es porque están regresando a los niveles del periodo pre-pandemia.
 
-\textbf{Recomendación} Recomendación n del trabajo de investigación.\
+\subsection{Recomendaciones}
 
-
-\section{Anexos}
+En términos generales, la pandemia si bien afectó los niveles de consumo de alcohol en la región europea, no lo hizo de forma equilibrada en todos los países, puesto que algunos muestran cambios prácticamente nulos y luego está Rumania con datos atípicos muy superiores a los niveles del consumo del resto de la región (17 litros de alcohol puro per cápita, frente 11 litros respectivamente). Por lo mismo la principal recomendación sería profundidad en los factores socioeconómicos y culturales que determinan en gran medida las variaciones en los niveles del consumo de alcohol en Europa, para entender porqué el impacto de la pandemia fué tan desigual y poco persiste.
 
 
 ```{r top-5-caidas, echo=FALSE, fig.width=8, fig.height=5}
@@ -451,4 +461,13 @@ plot_grid(mapa_2020 + theme(legend.position="none"),
 ```
 
 Este último gráfico (mapa de calor) al mostrar dos mapas de Europa (2020 y 2022) prácticamente idénticos, evidencia el hecho de que si bien el consumo de alcohol per cápita presenta una variabilidad ascendente como hemos visto anteriormente volviéndo a los niveles del periodo 2016-2019, la pandemia aún así impactó a largo plazo la relación del ciudadano europeo con el consumo de alcohol como sugiere la pregunta de investigación. 
+
+
+
+
+
+
+# Bibliografía
+
+
 
