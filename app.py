@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import openpyxl as op
 
 alcohol = pd.read_excel("alcohol_filtrado.xlsx")
 
@@ -53,11 +54,12 @@ df_filtrado = alcohol[
 ]
 
     # Separando por pestañas los resultados y gráficos
-tab1, tab2, tab3 = st.tabs(
+tab1, tab2, tab3, tab4 = st.tabs(
     [
         "**Métricas Principales**", 
         "**Evolución Anula**",
-        "**Análisis de Dispersión**"
+        "**Análisis de Dispersión**",
+        "**Ranking de la Pandemia**"
     ]
 )
 
@@ -83,6 +85,10 @@ with tab1:
             st.markdown("#### 📊Promedio de Litros por Persona")
             promedio_consumo = df_filtrado['litros_por_persona'].mean()
             st.metric("Promedio de litros de alcohol anuales consumidos", f"{promedio_consumo:.2f}")
+    
+        # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros aplicados:** Datos desde el año **{rango_años[0]}** al **{rango_años[1]}**, "
+            f"incluyendo **{cantidad_paises}** países seleccionados.")
 
 with tab2:
     st.subheader("🔍 Evolución del Consumo de Alcohol de los Países")       # titulo
@@ -108,6 +114,10 @@ with tab2:
             )
 
         st.plotly_chart(fig_1, use_container_width=True)
+
+        # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros aplicados:** Datos desde el año **{rango_años[0]}** al **{rango_años[1]}**, "
+            f"incluyendo **{cantidad_paises}** países seleccionados.")
 
     # Tabla DERECHA - Promedios de temporadas 
 
@@ -150,3 +160,43 @@ with tab3:
 
     st.plotly_chart(fig_box, use_container_width=True)
 
+        # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros aplicados:** Datos desde el año **{rango_años[0]}** al **{rango_años[1]}**, "
+            f"incluyendo **{cantidad_paises}** países seleccionados.")
+
+with tab4:
+    st.subheader("🔥Ranking de Países con Mayor Consumo")
+
+        # Añadiendo a los filtro un dezlizable para el ranking
+    n_top = st.sidebar.slider("Número de países para el ranking:", 1, 10, 5)
+        # Añadiendo al filtro para seleccionar la temporada de la pandemia
+    periodo_seleccionado = st.sidebar.radio(
+        "Seleccionar periodo para el ranking:",
+        options=["Antes", "Durante", "Después"],
+        index=0 # Por defecto, mostrará "Antes"
+    )
+
+        #  Mostrar solo la temporada durante (media de los distintos valores de los registros)
+    df_periodo = df_filtrado[df_filtrado['temporada'] == periodo_seleccionado]
+    df_ranking = df_periodo.groupby('pais')['litros_por_persona'].mean().reset_index()
+        # Para que tome el top N que escojamos
+    df_ranking = df_ranking.sort_values(by='litros_por_persona', ascending=False).head(n_top)
+
+        # Gráfico 3 - Barras desendentes
+
+    fig_bar = px.bar(
+        df_ranking,
+        x='litros_por_persona',
+        y='pais',
+        orientation='h',                # Mostar en horizontal
+        color='litros_por_persona',
+        color_continuous_scale='Blues',
+        template="plotly_dark",
+        labels={'litros_por_persona': 'Promedio de Litros (p/p)', 'pais': 'País'},
+    )
+
+        # Invirtiendo eje Y para que sea desendente 
+    fig_bar.update_layout(yaxis={'categoryorder':'total ascending'})
+
+    st.plotly_chart(fig_bar, use_container_width=True)
+    
