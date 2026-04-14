@@ -1,39 +1,50 @@
 ---
-# --- Metadatos Básicos ---
 title: "Título del Trabajo Final"
-author:
-   - Isabella Palacios
-   - Mayerlin Otamendi
 date: "Abril 2026"
-
-# --- Metadatos Específicos de Plantilla ---
-degree: "Computación I"
-director: 
-  - Jesus Ochoa 
-  - Oliver Triveño
-lugar: "Caracas"
-facultad: 
-  - Facultad de Ciencias Económicas y Sociales
-  - Escuela de Estadistica y Ciencias Actuariales
-# Ruta al escudo (relativa al archivo .Rmd)
-escudo: "Latex/Classes/Escudos/faces"
-
-# --- Bibliografía ---
-bibliography: bibliografia.bib
-
-# --- Configuración de Salida ---
-output: 
+output:
   pdf_document:
-    template: template.tex  # Llamamos al archivo de plantilla
+    latex_engine: xelatex
     keep_tex: true                 # Útil para ver errores si ocurren
     toc: true                      # Generar índice
     number_sections: true
     citation_package: natbib       # Importante: forzar natbib porque tu plantilla lo usa
-
-# --- Resumen (Abstract) ---
-abstract: |
-  En el presente informe se realiza un análisis comparativo sobre el impacto de la pandemia en el consumo de alcohol per cápita en Europa. Se examina la tendencia del consumo de alcohol en la región europea antes (2016-2019), durante (2020) y después (2022) del COVID-19 para identificar las variaciones causadas por el mismo, aplicando técnicas de estadística descriptiva y visualización de datos con R.
 ---
+\begin{center}
+    \textbf{UNIVERSIDAD CENTRAL DE VENEZUELA} \\
+    \textbf{Facultad de Ciencias Económicas y Sociales} \\
+    \textbf{Escuela de Estadística y Ciencias Actuariales} \\
+    
+    \vspace{3cm} % Espacio antes del título
+    
+    \Large \textbf{TÍTULO DEL TRABAJO FINAL} \\
+    \vspace{0.5cm}
+    \large Computación I \\
+    
+    \vspace{3cm} % Espacio antes de los nombres
+    
+    \textbf{Profesores:} \\
+    Jesus Ochoa \\
+    Oliver Triveño \\
+    
+    \vspace{1.5cm}
+    
+    \textbf{Autoras:} \\
+    Isabella Palacios \\
+    Mayerlin Otamendi \\
+    
+    \vfill % Empuja la fecha al final de la página
+    
+    Caracas, Abril de 2026
+\end{center}
+
+\newpage
+
+# Resumen {-}
+
+En el presente informe se realiza un análisis comparativo sobre el impacto de la pandemia en el consumo de alcohol en Europa. Se examina la tendencia del consumo de alcohol en la región europea antes (2016-2019), durante (2020) y después (2022) del COVID-19 para identificar las variaciones causadas por el mismo, aplicando técnicas de estadística descriptiva y visualización de datos con R.
+
+\newpage
+
 
 ```{r setup, include=FALSE}
 # Configuración global de chunks
@@ -54,7 +65,18 @@ library(kableExtra)
 library(scales)
 ```
 
-\chapter*{Introducción}
+```{r lectura-datos, include=FALSE}
+# 1. Cargamos la librería
+library(readr)
+
+# 2. Leemos el archivo (R lo encontrará porque está en la misma carpeta)
+datos_limpios <- read_csv("datos_pisa_limpios.csv")
+
+# 3. Mostramos un resumen para confirmar
+summary(datos_limpios)
+```
+
+\section{Introducción}
 
 La región europea ha mantenido históricamente los niveles más altos de consumo de alcohol per cápita en el mundo. Entre 2016 y 2019, la tendencia se caracterizó por una relativa estabilidad en la tendencia de consumo social, fuertemente arraigados en la cultura y la economía del continente. Sin embargo, la aparición del COVID-19 a finales de 2019 y su declaración como pandemia por la OMS en marzo de 2020 transformaron radicalmente este panorama.
 
@@ -64,51 +86,41 @@ Para el año 2022, con la flexibilización de las medidas sanitarias y la reaper
 
 En la presente investigación se busca analizar cómo se comportan los niveles del consumo de alcohol en el continente europeo antes (2016-2019), durante (2020) y después (2022) de la pandemia del COVID-19, analizando la varianza del consumo de alcohol per cápita entre los países y comparar sus promedios postpandemia con el promedio del consumo antes de la misma.
 
-\section*{Estructura del Informe}
+\newpage
 
-Este documento técnico se encuentra estructurado en cinco capítulos fundamentales:
-
-\begin{itemize}
-    \item En el \textbf{Capítulo I}, se plantea la problemática de la imprevisibilidad financiera en el desarrollo de software de entretenimiento, formulando las preguntas de investigación y delimitando el alcance temporal y geográfico del estudio.
-    
-    \item El \textbf{Capítulo II} establece el Marco Teórico, definiendo los conceptos estadísticos clave como esperanza matemática, series de tiempo y correlación, necesarios para la interpretación de los datos.
-    
-    \item El \textbf{Capítulo III} describe el Marco Metodológico, detallando el proceso de limpieza de datos (ETL), las pruebas de hipótesis y los algoritmos utilizados para validar la calidad de la información.
-    
-    \item El \textbf{Capítulo IV} presenta el Análisis de Resultados, donde se exhiben las tablas y gráficos generados dinámicamente, discutiendo los hallazgos sobre la concentración de mercado (Ley de Pareto) y la dinámica temporal.
-    
-    \item Finalmente, en el \textbf{Capítulo V}, se exponen las Conclusiones y Recomendaciones estratégicas derivadas del análisis cuantitativo, orientadas a la toma de decisiones basada en datos (\textit{Data-Driven Decision Making}).
-\end{itemize}
-
-\chapter{Planteamiento del Problema}
+\section{Planteamiento del Problema}
 Describir planteamiento del problema\
 
-Argumento final. Debido a esto, se plantea las siguientes preguntas de investigación:\
+La región europea se ha distinguido históricamente por registrar los niveles mas elevados de consumo de alcohol per cápita a escala global. Hasta 2019, este consumo presentaba una tendencia a la estabilidad, integrada profundamente en las dinámicas sociales y económicas del continente, sin embargo, la irrupción de la pandemia de COVID-19 en 2020 generó una disrupción sin precedentes en estos patrones.
+
+El problema radica en la incertidumbre sobre la naturaleza de los cambios observados durante la crisis sanitaria. Durante el confinamiento, el cierre de la hostelería desplazó el consumo hacia el hogar, facilitado por el comercio electrónico y la clasificación del alcohol como "bien esencial". Si bien algunos sectores de la población redujeron su ingesta, otros la aumentaron como mecanismo de afrontamiento ante el estrés y el aislamiento.
+
+La falta de un análisis comparativo integral que contraste el periodo base (2016-2019) con el año de crisis (2020) y la recuperación (2022) impide identificar qué países presentan comportamientos extremos y cuáles han logrado retornar a la normalidad previa. Esta brecha de información dificulta la creación de políticas de salud pública adaptadas a la nueva realidad europea. Debido a esto, se plantea la siguiente cuestión,
 
 
-\textbf{1.}	Pregunta1\
-
-\textbf{2.}	Pregunta2\
-
-\textbf{3.}	Pregunta3\
+\textbf{Pregunta de investigacón: ¿Estamos ante una anomalía estadística provocada por las restricciones de movilidad o ante una transformación a largo plazo en la relación del ciudadano europeo con el consumo de alcohol?}
 
 
 \section{Justificación}
 
-Justificación del trabajo de investigación\
+La justificación de este trabajo de investigación reside en la necesidad de determinar el impacto de la pandemia en cuanto al consumo de alcohol en el continente europeo, al no entender claramente como afectó esta crisis en las dinámicas de consumo no se puede crear una estrategia de salud publica coherente con la realidad actual para evitar excesos, y por otro lado el mercado del alcohol en Europa necesita estar alineado a los nuevos patrones de consumo para garantizar sus ventas. 
+
+Desde el punto de vista académico la realización de este informe significa un aporte para otros investigadore debido a que cuenta con una metodología simple y replicable con el uso de herramientas de fácil manejo y acceso, siendo la principal R Markdown.
+
 
 \section{Objetivos}
  
 \subsection{Objetivo General}
 \begin{itemize}
-  \item{Describir objetivo general del trabajo de investigación}
+  \item{Evaluar de manera comparativa los patrones de consumo de alcohol en la población europea entre los años 2016 y 2022 analizando el impacto de la pandemia de COVID-19 para identificar cambios en la ingesta antes, durante y después de la crisis sanitaria.}
 \end{itemize}
 
 \subsection{Objetivos Específicos}
 \begin{itemize}
-  \item{Describir objetivo 1 del trabajo de investigación}
-  \item{Describir objetivo 2 del trabajo de investigación}
-  \item{Describir objetivo 3 del trabajo de investigación}
+  \item{Realizar un análisis de estadística descriptiva sobre el consumo de alcohol per cápita para comparar el comportamiento de la región europea en los periodos 2016-2019, 2020 y 2022.}
+  \item{Comparar el consumo de alcohol de cada país en 2020 y 2022 frente al promedio del periodo 2016-2019, para determinar si las variaciones derivadas de la pandemia fueron transitorias o persistentes.}
+  \item{Evaluar la homogeneidad de los datos a través del Coeficiente de Variación, con el fin de identificar qué tan representativo es el promedio regional en cada temporada de la investigación.}
+  \item{Identificar y analizar los datos atípicos del consumo de alcohol en 2020 y 2022 para señalar que países presentaron comportamientos extremos durante y después de la pandemia.}
 \end{itemize}
 
 
@@ -116,118 +128,325 @@ Justificación del trabajo de investigación\
 
 \subsection{Horizontal}
 
-Describir la cobertura Horizontal del trabajo de investigación\
-
-\begin{table}[ht]
-\centering
-\caption{Variables consideradas} 
-\resizebox{10cm}{!} {
-\begin{tabular}{ccc}
-  \hline
-\ \ \ \ \ NOMBRE DE LA VARIABLE \\ 
-  \hline
-   VARIABLE 1 \\ 
-VARIABLE 2\\ 
-VARIABLE n\\ 
-   \hline
-\end{tabular}
-}
-\end{table}
+La presente investigación delimita su cobertura horizontal a los países miembros del continente europeo analizando los reportes de datos oficiales sobre el consumo de alcohol per cápita (medido en litros de alcohol puro al año). No solo se analiza el volumen total, sino también la variabilidad estadística (homogeneidad) y la detección de comportamientos extremos (datos atípicos).
 
 \subsection{Vertical}
 
-Describir la cobertura Vertical del trabajo de investigación
+En cuanto a su cobertura vertical, el análisis profundiza en la evolución temporal desde 2016 hasta 2022, dividiendo este periodo en tres fases para la comparación: **(2016-2019)** comportamiento pre-pandemia, **(2020)** impacto inmediato de las restricciones sanitarias y **(2022)** determina si los cambios fueron transitorios o persistentes.
 
 
-\section{Periodo de Referencia}
+\newpage
 
-Describir la fuente y el Periodo de Referencia utilizado en el trabajo de investigación
-
-\section{Variables}
-
-Describir la variable en estudio en el trabajo de investigación
-
-\chapter{Marco Teórico}
+\section{Marco Teórico}
 
 
 \section{Bases Teóricas}
 
-Resumen de las bases teoricas explicadas en el capitulo y su importancia\
 
-\subsection{Definición 1}
+\subsection{El Consumo de Alcohol en Europa como Objeto de Estudio}
 
-Descripción de la definición 1\
+El consumo de alcohol no es un fenómeno estático sino que responde a dinámicas de adaptación ante el estrés y el aislamiento social. Históricamente, la región europea ha registrado los niveles más altos de consumo de alcohol per cápita a nivel mundial. Este fenómeno no es solo una estadística de salud pública, sino que está profundamente arraigado en la cultura, las interacciones sociales y la economía del continente.\
 
-\subsection{Definición 2}
+\subsection{Impacto dela Pandemia de COVID-19}
 
-Descripción de la definición 2\
+Entre 2016 y 2019, la tendencia se caracterizó por una relativa estabilidad en los patrones de consumo social. La aparición del COVID-19 a finales de 2019 у su posterior declaración como pandemia por la OMS en marzo de 2020 transformaron radicalmente este panorama. Las restricciones de movilidad y los confinamientos obligatorios provocaron el cierre masivo del sector de la hostelería, incluyendo bares, restaurantes y clubes. No obstante, en muchos países europeos, el alcohol fue considerado un "bien esencial", lo que permitió que los puntos de venta minorista y el comercio electrónico mantuvieran la disponibilidad del producto.\
 
-\subsection{Definición n}
+\newpage
 
-Descripción de la definición n\
+\section{Marco Metódico}
 
 
-\chapter{Marco Metódico}
-En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada en el marco teórico, así como las fuentes de datos.
- 
-\section{Bases metódicas utilizadas en el trabajo de investigación}
+El presente estudio se sustenta en la estadística descriptiva, la cual permite organizar, resumir y presentar los datos de manera informativa para identificar patrones en el consumo de alcohol en Europa. Para dar cumplimiento a los objetivos específicos y respuesta a la pregunta de investigación, se implementa un análisis de variación porcentual y detección de datos atípicos haciendo uso de las siguientes medidas estadísticas: 
 
-Desarrollo\
+* **Esperanza Matemática (Media Muestral):**
+    $$\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i$$
 
-\subsection{Item 1}
+* **Varianza (Volatilidad):** 
+    $$S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2$$
+    
+* **Desviación Estándar:**
+$$s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2}$$    
 
-Descripción\
 
-\subsection{Item 2}
+\subsection{Periodo de Referencia}
 
-Descripción\
+La fuente original de los datos usados en la presente investigación es el Observatorio de Salud Global de la Organización Mundial de la Salud. el dataset utilizado es 15.Alcohol consumption.csv que presenta registros verificados del consumo de alcohol per cápita a nivel global en el periodo 2000-2022.
 
-\subsubsection{Item 2.2}
 
-Descripción\
+\subsection{Procesamiento}
 
-\subsection{Item n}
+El análisis se realiza con R markdown y las librerías ggplot2, dplyr y tidyverse. El proceso consta de:
 
-Descripción\
+Limpieza de Datos: Carga del dataset, detección de valores nulos y coversión de datos a través de la librería Pandas de Python.
 
-\chapter{Análisis de Resultados}
+Visualización: La creación de de graficas para analizar tendencia, comparar niveles de consumo en los diferentes años de estudio, señalamiento de datos atípicos y análisis de variabilidad del consumo en cada país.
 
-{\small Este capítulo presenta los resultados obtenidos al aplicar las metodologías descritas en el capítulo anterior, así como del análisis estadístico descriptivo de las variables estudiadas y las ventajas y desventajas al aplicar dichos tests.}
 
-\section{Presentación de resultados 1}
+\subsection{Variables}
 
-Descripción\
+Las principales variables en estudio son "Litros de alcohol per cápita", que representa la cantidad promedio de alcohol puro consumido por persona al año, y "Año" que abarca el periodo prepandemia (2016-2019), durante la pandemia (2020) y pospandemia (2022). Ambas son dependientes entre sí de forma que el análisis conjunto es crucial para responder a los objetivos de la investigación. No menos importante tenemos a la variable "País" que abarca a los países de la región europea de los cuales se analizan los niveles de consumo de alcohol dependiendo del período que se esté tratando, para luego hacer una comparación que dé respuesta al objetivo general de la investigación.
 
-\section{Presentación de resultados 2}
+\newpage
 
-Descripción\
+\section{Análisis de Resultados}
 
-\section{Presentación de resultados n}
+{\small Este capítulo presenta los resultados obtenidos al aplicar el análisis descriptivo de las variables estudiadas y las metodologías descritas en el capítulo anterior}
 
-Descripción\
+\section{Análisis de Estadística Descriptiva}
 
-\chapter{Conclusiones y Recomendaciones}
+Éstos son los cálculos requeridos para satisfacer el onjetivo de la investigación:
 
-\textbf{1.-} Conclusion 1 del trabajo de investigación.\
+```{r estadisticas-descriptivas, echo=FALSE}
+# 1. Agrupar los años 2016-2019 como un solo periodo "Pre-Pandemia" 
+# y mantener 2020 y 2022 por separado para comparar el comportamiento.
 
-\textbf{Recomendación} 
-Recomendación 1 del trabajo de investigación.\
+resumen_alcohol <- datos_limpios %>%
+  filter(año %in% c(2016, 2017, 2018, 2019, 2020, 2022)) %>%
+  mutate(periodo = case_when(
+    año >= 2016 & año <= 2019 ~ "2016-2019 (Pre-Pandemia)",
+    año == 2020 ~ "2020 (Pandemia)",
+    año == 2022 ~ "2022 (Post-Pandemia)"
+  )) %>%
+  group_by(periodo) %>%
+  summarise(
+    Paises_Analizados = n(),
+    Media = mean(litros_por_persona, na.rm = TRUE),
+    Varianza = var(litros_por_persona, na.rm = TRUE),
+    Desv_Estandar = sd(litros_por_persona, na.rm = TRUE)
+  )
 
-\textbf{2.-} Conclusion 2 del trabajo de investigación.\
+# 2. Generar la tabla para el informe
+knitr::kable(resumen_alcohol, 
+             digits = 2, 
+             caption = "Análisis Descriptivo del Consumo de Alcohol Per Cápita en Europa",
+             col.names = c("Periodo", "N° de Registros", "Media (L)", "Varianza", "Desv. Estándar"))
+```
 
-\textbf{Recomendación} 
-Recomendación 2 del trabajo de investigación.\
+
+\section{Comparación del consumo de alcohol de cada país en 2020 y 2022 frente al promedio del periodo 2016-2019}
+
+El siguiente gráfico nos dice la variación porcentual (que va desde el -20% hasta el 20%) del consumo de alcohol de cada país de Europa tanto en 2020 como en 2022, frente al promedio del mismo en el periodo 2016-2019.  
+
+```{r objetivo2-barras, echo=FALSE, fig.width=10, fig.height=8}
+# 1. Preparar los datos
+data_variaciones <- datos_limpios %>%
+  filter(año %in% c(2016:2019, 2020, 2022)) %>%
+  mutate(periodo = case_when(
+    año %in% 2016:2019 ~ "Base",
+    año == 2020 ~ "2020",
+    año == 2022 ~ "2022"
+  )) %>%
+  group_by(pais, periodo) %>%
+  # CORRECCIÓN AQUÍ: litros_por_persona (con una sola n)
+  summarise(consumo = mean(litros_por_persona, na.rm = TRUE), .groups = 'drop') %>%
+  pivot_wider(names_from = periodo, values_from = consumo) %>%
+  mutate(
+    Var_2020 = ((`2020` - Base) / Base) * 100,
+    Var_2022 = ((`2022` - Base) / Base) * 100
+  ) %>%
+  select(pais, Var_2020, Var_2022) %>%
+  pivot_longer(cols = starts_with("Var"), names_to = "Año", values_to = "Variacion") %>%
+  mutate(Año = ifelse(Año == "Var_2020", "2020 (Pandemia)", "2022 (Post-Pandemia)")) %>%
+  filter(!is.na(Variacion))
+
+# 2. Generar el Gráfico
+ggplot(data_variaciones, aes(x = reorder(pais, Variacion), y = Variacion, fill = Variacion > 0)) +
+  geom_bar(stat = "identity", color = "black", size = 0.2) +
+  facet_wrap(~Año) +
+  coord_flip() +
+  scale_fill_manual(values = c("#E64B35", "#00A087"), 
+                    labels = c("Descenso", "Aumento"),
+                    name = "Tendencia") +
+  labs(
+    title = "Variación del Consumo por País",
+    subtitle = "Comparación vs. Promedio 2016-2019",
+    x = "País",
+    y = "Variación Porcentual (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 7))
+```
+
+Acá podemos evidenciar diferentes escenarios interesantes que se dan en la comparación, por ejemplo el hecho de que elconsumo de alcohol en Portugal en el año 2020 descendió a casi el -5% con respecto al promedio del periodo 2016-2019, mientras que en 2022 ascendió esto mismo, casi el 5%, esto quiere decir que a pesar de que la variación porcentual es baja, la tendencia del consumo cambió y este aumenta luego de la pandemia prácticamente lo mismo que había disminuído durante la misma. De ésta forma se pueden hacer varias observaciones sobre diferentes países de Europa.
+
+
+\section{Homogeneidad de los Datos a través del Coeficiente de Variación}
+
+Este gráfico analiza la representatividad del promedio regional a través del Coeficiente de Variación (CV), el cual mide la dispersión relativa de los datos en cada año de estudio. Se evidencia un incremento constante y sostenido en la variabilidad del consumo, pasando de un 23.4% en 2016 a un 25.6% en 2022.
+
+```{r objetivo3-homogeneidad, echo=FALSE, fig.cap="Evolución de la homogeneidad de los datos (Coeficiente de Variación) por año."}
+# 1. Calcular el Coeficiente de Variación (CV) por año
+# El CV se calcula como: (Desviación Estándar / Media) * 100
+data_homogeneidad <- datos_limpios %>%
+  filter(año %in% c(2016:2020, 2022)) %>%
+  group_by(año) %>%
+  summarise(
+    media = mean(litros_por_persona, na.rm = TRUE),
+    desv_est = sd(litros_por_persona, na.rm = TRUE),
+    cv = (desv_est / media) * 100
+  )
+
+# 2. Generar el gráfico de líneas para ver la tendencia de la variabilidad
+ggplot(data_homogeneidad, aes(x = año, y = cv)) +
+  geom_line(color = "#2c3e50", size = 1.2) +
+  geom_point(color = "#e74c3c", size = 3) +
+  # Añadir etiquetas de los valores en cada punto
+  geom_text(aes(label = paste0(round(cv, 1), "%")), 
+            vjust = -1, size = 3.5, fontface = "bold") +
+  scale_x_continuous(breaks = c(2016:2020, 2022)) +
+  ylim(min(data_homogeneidad$cv) - 5, max(data_homogeneidad$cv) + 5) +
+  labs(
+    title = "Evolución de la Variabilidad en el Consumo de Alcohol",
+    subtitle = "Análisis de Homogeneidad mediante el Coeficiente de Variación (CV)",
+    x = "Año",
+    y = "Coeficiente de Variación (%)",
+    caption = "Un CV menor sugiere datos más homogéneos y un promedio más representativo."
+  ) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank())
+```
+
+En estadística, un CV creciente indica que los datos se vuelven menos homogéneos. Esto significa que, con el paso de los años y tras el impacto de la pandemia, la brecha entre los países europeos que consumen mucho alcohol y los que consumen poco se ha ampliado.
+Debido a que el CV supera el 20% y sigue subiendo, el promedio regional es cada vez menos representativo de la realidad individual de cada país. 
+
+
+\section{Datos Atípicos 2020 y 2022}
+
+ Este análisis de cajas y bigotes evalúa la distribución del consumo de alcohol en Europa para los años 2020 y 2022, permitiendo identificar países con patrones de consumo significativamente alejados del comportamiento grupal.
+
+```{r boxplot-identificado, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+# 1. Filtramos y preparamos los datos para los años clave
+datos_outliers <- datos_limpios %>%
+  filter(año %in% c(2020, 2022)) %>%
+  mutate(año_fact = as.factor(año))
+
+# 2. Identificación estadística de países atípicos (Outliers)
+# Marcamos los puntos que están más allá de 1.5 veces el rango intercuartílico
+datos_outliers <- datos_outliers %>%
+  group_by(año_fact) %>%
+  mutate(
+    es_atípico = litros_por_persona < (quantile(litros_por_persona, 0.25) - 1.5 * IQR(litros_por_persona)) | 
+                 litros_por_persona > (quantile(litros_por_persona, 0.75) + 1.5 * IQR(litros_por_persona)),
+    etiqueta = ifelse(es_atípico, as.character(pais), NA)
+  )
+
+# 3. Generación del Gráfico de Cajas y Bigotes
+ggplot(datos_outliers, aes(x = año_fact, y = litros_por_persona, fill = año_fact)) +
+  geom_boxplot(alpha = 0.7, outlier.colour = "red", outlier.shape = 17, outlier.size = 3) +
+  # Añadimos los nombres de los países solo a los puntos atípicos
+  geom_text(aes(label = etiqueta), na.rm = TRUE, vjust = -1.5, size = 3, fontface = "bold") +
+  theme_minimal() +
+  scale_fill_manual(values = c("#E41A1C", "#377EB8")) + # Rojo para 2020, Azul para 2022
+  labs(
+    title = "Identificación de Países con Comportamientos Extremos",
+    subtitle = "Análisis de outliers en el consumo de alcohol (2020 vs 2022)",
+    x = "Año de Evaluación",
+    y = "Consumo (Litros de alcohol puro per cápita)",
+    fill = "Año"
+  ) +
+  theme(legend.position = "none") +
+  ylim(0, max(datos_outliers$litros_por_persona) + 2) # Damos espacio arriba para las etiquetas
+```
+
+En ambos periodos Rumania representa un valor atípico superior (outlier). Su consumo, representado por los triángulos rojos, supera los 17 litros de alcohol puro per cápita, situándose muy por encima del límite superior del resto de la región. A pesar de la transición de la pandemia a la post-pandemia, la línea central de las cajas (mediana) muestra una estabilidad notable, manteniéndose cerca de los 11 litros. Esto sugiere que el comportamiento del "consumidor promedio" europeo no sufrió alteraciones drásticas en su nivel base entre 2020 y 2022.
+
+\newpage
+
+\section{Conclusiones y Recomendaciones}
+
+
 
 \textbf{n.-} Conclusion n del trabajo de investigación.\
 
 \textbf{Recomendación} Recomendación n del trabajo de investigación.\
 
-\appendix
-\renewcommand{\thechapter}{\Alph{chapter}}
 
-\chapter{Anexo A}
+\section{Anexos}
 
-\chapter{Anexo B}
 
-\chapter{Anexo C}
+```{r top-5-caidas, echo=FALSE, fig.width=8, fig.height=5}
+# Preparamos los datos para el Top 5
+top5_datos <- datos_limpios %>%
+  filter(año %in% c(2016:2019, 2020)) %>%
+  mutate(periodo = ifelse(año == 2020, "Pandemia", "Base")) %>%
+  group_by(pais, periodo) %>%
+  summarise(consumo = mean(litros_por_persona, na.rm = TRUE), .groups = 'drop') %>%
+  pivot_wider(names_from = periodo, values_from = consumo) %>%
+  mutate(variacion = ((Pandemia - Base) / Base) * 100) %>%
+  arrange(variacion) %>% 
+  slice(1:5) # Filtramos solo los primeros 5
+
+# Generamos el gráfico en Azul
+ggplot(top5_datos, aes(x = reorder(pais, -variacion), y = variacion)) +
+  geom_bar(stat = "identity", fill = "#2E86C1", color = "black") + # Color Azul
+  coord_flip() +
+  labs(
+    title = "Top 5: Países con mayor impacto negativo en el consumo (2020)",
+    subtitle = "Variación porcentual respecto al promedio pre-pandemia",
+    x = "País",
+    y = "Descenso en el consumo (%)"
+  ) +
+  theme_minimal()
+```
+
+
+```{r mapa-calor-europa, echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=8}
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(cowplot) # Para poner los mapas lado a lado
+
+# 1. Obtener el mapa de Europa
+europe_map <- ne_countries(scale = "medium", continent = "europe", returnclass = "sf")
+
+# Limitar el mapa geográficamente para que no salga Rusia entera o islas muy lejanas
+europe_cropped <- st_crop(europe_map, xmin = -25, xmax = 45, ymin = 34, ymax = 71)
+
+# 2. Preparar tus datos y unirlos al mapa
+# Filtrar años 2020 y 2022
+datos_mapa <- datos_limpios %>%
+  filter(año %in% c(2020, 2022))
+
+# Unir datos al mapa (Asegúrate que la columna 'pais' coincida con 'name' o 'name_long' del mapa)
+# Si tus países están en español, necesitarás un paso extra de traducción aquí.
+mapa_final <- europe_cropped %>%
+  left_join(datos_mapa, by = c("name" = "pais")) %>% # Intenta 'name' o 'name_long'
+  filter(!is.na(año)) # Eliminar países del mapa sin datos
+
+# 3. Función para generar el mapa base
+crear_mapa <- function(data_year, titulo) {
+  ggplot(data = data_year) +
+    geom_sf(aes(fill = litros_por_persona), color = "white", size = 0.1) +
+    scale_fill_gradientn(
+      colors = c("#FFFFCC", "#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"),
+      name = "Litros per cápita",
+      na.value = "grey90",
+      limits = c(0, max(datos_limpios$litros_por_persona, na.rm = TRUE)) # Escala unificada
+    ) +
+    labs(title = titulo) +
+    theme_minimal() +
+    theme(
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      panel.grid = element_blank(),
+      legend.position = "bottom",
+      legend.key.width = unit(1.5, "cm")
+    )
+}
+
+# 4. Generar los dos mapas por separado
+mapa_2020 <- crear_mapa(filter(mapa_final, año == 2020), "Consumo de Alcohol en Europa (2020)")
+mapa_2022 <- crear_mapa(filter(mapa_final, año == 2022), "Consumo de Alcohol en Europa (2022)")
+
+# 5. Combinar los mapas lado a lado con una sola leyenda
+plot_grid(mapa_2020 + theme(legend.position="none"), 
+          mapa_2022 + theme(legend.position="none"), 
+          ncol = 2, labels = "AUTO") %>%
+  plot_grid(get_legend(mapa_2020), ncol = 1, rel_heights = c(1, 0.1))
+
+```
 
