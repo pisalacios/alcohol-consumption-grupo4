@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import openpyxl as op
 
 alcohol = pd.read_excel("alcohol_filtrado.xlsx")
 
@@ -53,10 +54,11 @@ df_filtrado = alcohol[
 ]
 
     # Separando por pestañas los resultados y gráficos
-tab1, tab2, tab3 = st.tabs(
+tab1, tab4, tab2, tab3 = st.tabs(
     [
-        "**Métricas Principales**", 
-        "**Evolución Anula**",
+        "**Métricas Principales**",
+        "**Ranking de la Pandemia**", 
+        "**Evolución Anual**",
         "**Análisis de Dispersión**"
     ]
 )
@@ -83,6 +85,10 @@ with tab1:
             st.markdown("#### 📊Promedio de Litros por Persona")
             promedio_consumo = df_filtrado['litros_por_persona'].mean()
             st.metric("Promedio de litros de alcohol anuales consumidos", f"{promedio_consumo:.2f}")
+    
+        # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros aplicados:** Datos desde el año **{rango_años[0]}** al **{rango_años[1]}**, "
+            f"incluyendo **{cantidad_paises}** países seleccionados.")
 
 with tab2:
     st.subheader("🔍 Evolución del Consumo de Alcohol de los Países")       # titulo
@@ -109,6 +115,10 @@ with tab2:
 
         st.plotly_chart(fig_1, use_container_width=True)
 
+        # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros aplicados:** Datos desde el año **{rango_años[0]}** al **{rango_años[1]}**, "
+            f"incluyendo **{cantidad_paises}** países seleccionados.")
+
     # Tabla DERECHA - Promedios de temporadas 
 
     with col_der:
@@ -130,7 +140,7 @@ with tab3:
         # Filtramos para al excluir 2021 y quedarnos con las temporadas de estudio
     df_box = df_filtrado[df_filtrado['temporada'].isin(['Antes', 'Durante', 'Después'])]
 
-    # Gráfico 2 - Diagrama de caja
+    # Gráfico 1 - Diagrama de caja
 
     fig_box = px.box(
         df_box,
@@ -149,4 +159,109 @@ with tab3:
     )
 
     st.plotly_chart(fig_box, use_container_width=True)
+
+        # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros aplicados:** Datos desde el año **{rango_años[0]}** al **{rango_años[1]}**, "
+            f"incluyendo **{cantidad_paises}** países seleccionados.")
+
+with tab4:
+    st.subheader("🔥Ranking de Países con Mayor Consumo de Litros de Alcohol (p/p)")
+
+        # Añadiendo a los filtro un dezlizable para el ranking
+    n_top = st.sidebar.slider("Número de países para el ranking:", 1, 10, 5)    # mostrará por defecto top 5
+        # Añadiendo al filtro para seleccionar la temporada de la pandemia
+    periodo_seleccionado = st.sidebar.radio(
+        "Seleccionar periodo para el ranking:",
+        options=["Antes", "Durante", "Después"],
+        index=1     # mostrará por defecto "durante"
+    )
+
+        #  Mostrar solo la temporada durante (media de los distintos valores de los registros)
+    df_periodo = df_filtrado[df_filtrado['temporada'] == periodo_seleccionado]
+    df_ranking = df_periodo.groupby('pais')['litros_por_persona'].mean().reset_index()
+        # Para que tome el top N que escojamos de los mayores
+    df_ranking = df_ranking.sort_values(by='litros_por_persona', ascending=False).head(n_top)
+
+        # Gráfico 1 - Barras desendentes (mayor a menor)
+
+    fig_bar = px.bar(
+        df_ranking,
+        x='litros_por_persona',
+        y='pais',
+        orientation='h',                # Mostar en horizontal
+        color='litros_por_persona',
+        color_continuous_scale=['#ef5350', '#d32f2f', '#b30000'],
+        template="plotly_dark",
+        labels={'litros_por_persona': 'Promedio de Litros (p/p)', 'pais': 'País'},
+        text_auto='.1f'                 # para redondear solo un decimal en los valores
+    )
+
+# Configuraciones extras del gráfico de la leyenda y ejes
+    fig_bar.update_layout(
+        showlegend=False,
+        coloraxis_showscale=False,
+        font=dict(color="black"),           # números de valores del gráfico en negro
+        yaxis=dict(
+            tickfont=dict(color="black")    # letras del eje Y negro
+        ),
+        xaxis=dict(
+            tickfont=dict(color="black")    # letras del eje X negro
+        )
+    )
+        # para poner los balores al lado de su respectiva barra
+    fig_bar.update_traces(textposition='outside')   
+
+        # Invirtiendo eje Y para que sea desendente 
+    fig_bar.update_layout(yaxis={'categoryorder':'total ascending'})
+
+    st.plotly_chart(fig_bar, use_container_width=True)
+
+#--------------------------------------------------------------------------------------------------------
+
+    st.subheader("🧊Ranking de Países con Menor Consumo de Litros de Alcohol (p/p)")
+    
+        # Reobtener la lista de paises para que filtre de nuevo
+    df_ranking_min = df_periodo.groupby('pais')['litros_por_persona'].mean().reset_index()
+        # Para que tome el top N que escojamos de los menores
+    df_min = df_ranking_min.sort_values(by='litros_por_persona', ascending=True).head(n_top)
+
+        # Gráfico 2 - Barras asendentes (menor a mayor)
+
+    fig_min = px.bar(
+            df_min, x='litros_por_persona', 
+            y='pais', 
+            orientation='h',                # Mostar en horizontal
+            color='litros_por_persona',
+            color_continuous_scale=['#003366', '#0059b3', '#3399ff'],
+            template="plotly_dark",
+            labels={'litros_por_persona': 'Promedio (p/p)', 'pais': 'País'},
+            text_auto='.1f'                 # para redondear solo un decimal en los valores
+    )
+
+        # Configuraciones extras del gráfico de la leyenda y ejes
+    fig_min.update_layout(
+            showlegend=False, 
+            coloraxis_showscale=False, 
+            font=dict(color="black"),           # números de valores del gráfico en negro
+            xaxis=dict(
+                range=[0, 18],                  # escala hasta el valor 18 para mantener estetica
+                tickfont=dict(color="black")    # letras del eje X negro
+                ),
+            yaxis=dict(
+                tickfont=dict(color="black")    # letras del eje Y negro
+                )
+    )
+        # para poner los balores al lado de su respectiva barra
+    fig_min.update_traces(textposition='outside')
+        
+        # Invertimos el orden para que el valor más bajo quede abajo
+    fig_min.update_layout(yaxis={'categoryorder':'total descending'})
+
+    st.plotly_chart(fig_min, use_container_width=True)
+
+        # Para indicar los filtros aplicados en la vista
+    st.info(f"**Filtros de Ranking:** Mostrando el Top **{n_top}** países "
+            f"durante el periodo **{periodo_seleccionado}**.")
+
+
 
