@@ -175,6 +175,11 @@ with tab3:
 
     st.plotly_chart(fig_box, use_container_width=True)
 
+    st.markdown(" Temporada 2020 (Pandemia): Se identifican comportamientos extremos opuestos. " \
+    "Rumanía como valor atípico superior (máximo consumo) y Azerbaiyán y Turquía como atípicos inferiores (mínimo consumo). ")
+
+    st.markdown("Temporada 2022 (Post-pandemia): Rumanía persiste como el único valor atípico superior, manteniendo un consumo extremo cercano a los 17 litros.")
+
         # Para indicar los filtros aplicados en la vista
     st.info(f"**Filtros aplicados:** Datos desde el año **{rango_años[0]}** al **{rango_años[1]}**, "
             f"incluyendo **{cantidad_paises}** países seleccionados.")
