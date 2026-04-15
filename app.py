@@ -4,14 +4,14 @@ import pandas as pd
 import plotly.express as px
 import openpyxl as op
 
-alcohol = pd.read_excel("alcohol_filtrado.xlsx")
+alcohol = pd.read_excel("Data\\Clean\\Alcohol_Filtrado.xlsx")
 
     # Configuración de la página
 
 st.set_page_config(
     page_title="Alcoholismo Europa Dashboard Interactivo", 
     layout="wide",
-    page_icon="Logo de la Web.png"
+    page_icon="Photos\\Logo de la Web.png"
 )
 
     # Titulo, subtitulo y descripción
@@ -168,7 +168,7 @@ with tab4:
     st.subheader("🔥Ranking de Países con Mayor Consumo de Litros de Alcohol (p/p)")
 
         # Añadiendo a los filtro un dezlizable para el ranking
-    n_top = st.sidebar.slider("Número de países para el ranking:", 1, 10, 5)    # mostrará por defecto top 5
+    n_top = st.sidebar.slider("Número de países para el ranking:", 1, 20, 10)    # mostrará por defecto top 10
         # Añadiendo al filtro para seleccionar la temporada de la pandemia
     periodo_seleccionado = st.sidebar.radio(
         "Seleccionar periodo para el ranking:",
@@ -222,14 +222,15 @@ with tab4:
     
         # Reobtener la lista de paises para que filtre de nuevo
     df_ranking_min = df_periodo.groupby('pais')['litros_por_persona'].mean().reset_index()
+
         # Para que tome el top N que escojamos de los menores
     df_min = df_ranking_min.sort_values(by='litros_por_persona', ascending=True).head(n_top)
 
-        # Gráfico 2 - Barras asendentes (menor a mayor)
+        # Gráfico 2 - Barras esendentes (mayor a menor) para mantener estetica
 
     fig_min = px.bar(
-            df_min, x='litros_por_persona', 
-            y='pais', 
+            df_min, x='litros_por_persona',
+            y='pais',
             orientation='h',                # Mostar en horizontal
             color='litros_por_persona',
             color_continuous_scale=['#003366', '#0059b3', '#3399ff'],
@@ -240,20 +241,21 @@ with tab4:
 
         # Configuraciones extras del gráfico de la leyenda y ejes
     fig_min.update_layout(
-            showlegend=False, 
-            coloraxis_showscale=False, 
+            showlegend=False,
+            coloraxis_showscale=False,
             font=dict(color="black"),           # números de valores del gráfico en negro
             xaxis=dict(
                 range=[0, 18],                  # escala hasta el valor 18 para mantener estetica
                 tickfont=dict(color="black")    # letras del eje X negro
                 ),
             yaxis=dict(
-                tickfont=dict(color="black")    # letras del eje Y negro
+                tickfont=dict(color="black"),    # letras del eje Y negro
                 )
     )
+
         # para poner los balores al lado de su respectiva barra
     fig_min.update_traces(textposition='outside')
-        
+       
         # Invertimos el orden para que el valor más bajo quede abajo
     fig_min.update_layout(yaxis={'categoryorder':'total descending'})
 
