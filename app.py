@@ -123,15 +123,29 @@ with tab2:
     # Tabla DERECHA - Promedios de temporadas 
 
     with col_der:
-        st.markdown("##### Promedios por Temporada")        # título de la tabla
+        st.markdown("##### Promedios y CV por Temporada")        # título de la tabla
         
-        promedio_antes = df_filtrado[df_filtrado['temporada'] == 'Antes']['litros_por_persona'].mean()
-        promedio_durante = df_filtrado[df_filtrado['temporada'] == 'Durante']['litros_por_persona'].mean()
-        promedio_despues = df_filtrado[df_filtrado['temporada'] == 'Después']['litros_por_persona'].mean()
-
-        st.metric("Antes (2016-2019)", f"{promedio_antes:.2f} L")
-        st.metric("Durante (2020)", f"{promedio_durante:.2f} L")
-        st.metric("Después (2022)", f"{promedio_despues:.2f} L")
+            # Definiendo las temporadas y aplicando etiquetas
+        temporadas = ['Antes', 'Durante', 'Después']
+        etiquetas = ["Antes (2016-2019)", "Durante (2020)", "Después (2022)"]
+        
+        for i, temp in enumerate(temporadas):
+            df_temp = df_filtrado[df_filtrado['temporada'] == temp]
+            
+                # Fómulas
+            media = df_temp['litros_por_persona'].mean()
+            std = df_temp['litros_por_persona'].std()
+            cv = (std / media) * 100 if media != 0 else 0
+                
+                # Sacamos sub colunas en este bloque, para la vista de ambos indicadores
+            sub_col1, sub_col2 = st.columns(2)
+                
+            with sub_col1:
+                st.metric(etiquetas[i], f"{media:.2f} L")
+            with sub_col2:
+                st.metric("CV", f"{cv:.1f}%")
+                
+                st.divider()        # Línea divisoria entre temporadas
 
 with tab3:
     st.subheader("📦 Distribución del Consumo por temporada Pandémica")       # título
@@ -332,7 +346,7 @@ with tab5:
         locations="pais_plotly",
         locationmode="country names",
         color="litros_por_persona",
-        color_continuous_scale=['#003366', '#0059b3', '#3399ff'],
+        color_continuous_scale=['#003366', '#0073e6', '#99ccff'],
         labels={'litros_por_persona': 'Litros p/p'},
         scope="europe",                                     # que solo muestre a europa
         template="plotly_white"
@@ -355,4 +369,3 @@ with tab5:
 
         # Para indicar los filtros aplicados en la vista
     st.info(f"Mostrando datos para: **{zona_seleccionada}**")
-
