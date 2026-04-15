@@ -268,36 +268,39 @@ with tab4:
 
 
     # Compatibilizando los nombres del excel con los nombres de plotly
-    mapeo_nombres = {
-        "Alemania": "Germany", "Austria": "Austria", "Bélgica": "Belgium", "Bulgaria": "Bulgaria",
-        "Chequia": "Czech Republic", "Dinamarca": "Denmark", "Eslovaquia": "Slovakia",
-        "Eslovenia": "Slovenia", "España": "Spain", "Estonia": "Estonia", "Finlandia": "Finland",
-        "Francia": "France", "Grecia": "Greece", "Hungría": "Hungary", "Irlanda": "Ireland",
-        "Islandia": "Iceland", "Italia": "Italy", "Letonia": "Latvia", "Lituania": "Lithuania",
-        "Luxemburgo": "Luxembourg", "Noruega": "Norway", "Países Bajos": "Netherlands",
-        "Polonia": "Poland", "Portugal": "Portugal", "Reino Unido": "United Kingdom",
-        "Rumanía": "Romania", "Suecia": "Sweden", "Suiza": "Switzerland", "Serbia": "Serbia",
-        "Croacia": "Croatia", "Bielorrusia": "Belarus", "Georgia": "Georgia", "Albania": "Albania",
-        "Chipre": "Cyprus", "Malta": "Malta", "Montenegro": "Montenegro", 
-        "Macedonia del Norte": "North Macedonia", "Turquía": "Turkey", 
-        "Azerbaiyán": "Azerbaijan", "Armenia": "Armenia", "Kazajistán": "Kazakhstan"
-    }
+mapeo_nombres = {
+    "Alemania": "Germany", "Austria": "Austria", "Bélgica": "Belgium", "Bulgaria": "Bulgaria",
+    "Chequia": "Czech Republic", "Dinamarca": "Denmark", "Eslovaquia": "Slovakia",
+    "Eslovenia": "Slovenia", "España": "Spain", "Estonia": "Estonia", "Finlandia": "Finland",
+    "Francia": "France", "Grecia": "Greece", "Hungría": "Hungary", "Irlanda": "Ireland",
+    "Islandia": "Iceland", "Italia": "Italy", "Letonia": "Latvia", "Lituania": "Lithuania",
+    "Luxemburgo": "Luxembourg", "Noruega": "Norway", "Países Bajos": "Netherlands",
+    "Polonia": "Poland", "Portugal": "Portugal", "Reino Unido": "United Kingdom",
+    "Rumanía": "Romania", "Suecia": "Sweden", "Suiza": "Switzerland", "Serbia": "Serbia",
+    "Croacia": "Croatia", "Bielorrusia": "Belarus", "Georgia": "Georgia", "Albania": "Albania",
+    "Chipre": "Cyprus", "Malta": "Malta", "Montenegro": "Montenegro", 
+    "Macedonia del Norte": "North Macedonia", "Turquía": "Turkey", 
+    "Azerbaiyán": "Azerbaijan", "Armenia": "Armenia", "Kazajistán": "Kazakhstan",
+    "Federación de Rusia": "Russia", "Moldavia": "Moldova", "Ucrania": "Ukraine",
+    "Bosnia y Herzegovina": "Bosnia and Herzegovina", "Andorra": "Andorra"
+}
 
     # Definiendo las zonas por las regiones de Europa para la pestaña 5
-    zonas_europa = {
-        "Europa del Norte": ["Dinamarca", "Estonia", "Finlandia", "Islandia", "Irlanda", "Letonia", 
-                             "Lituania", "Noruega", "Suecia", "Reino Unido"],
+zonas_europa = {
+    "Europa del Norte": ["Dinamarca", "Estonia", "Finlandia", "Islandia", "Irlanda", "Letonia", 
+                         "Lituania", "Noruega", "Suecia", "Reino Unido"],
 
-        "Europa Occidental": ["Austria", "Bélgica", "Francia", "Alemania", "Luxemburgo", 
-                              "Países Bajos", "Suiza"],
+    "Europa Occidental": ["Austria", "Bélgica", "Francia", "Alemania", "Luxemburgo", "Países Bajos", 
+                          "Suiza", "Andorra"],
 
-        "Europa Central y del Este": ["Bulgaria", "Chequia", "Hungría", "Polonia", "Rumanía", 
-                                      "Eslovaquia", "Eslovenia", "Croacia", "Bielorrusia", "Georgia"],
+    "Europa Central y del Este": ["Bulgaria", "Chequia", "Hungría", "Polonia", "Rumanía", 
+                                  "Eslovaquia", "Eslovenia", "Croacia", "Bielorrusia", "Georgia", 
+                                  "Federación de Rusia", "Moldavia", "Ucrania"],
 
-        "Europa del Sur": ["Albania", "Chipre", "Grecia", "Italia", "Malta", "Montenegro", 
-                           "Macedonia del Norte", "Portugal", "Serbia", "España", "Turquía", 
-                           "Azerbaiyán", "Armenia", "Kazajistán"]
-    }
+    "Europa del Sur": ["Albania", "Bosnia y Herzegovina", "Chipre", "Grecia", "Italia", "Malta", 
+                       "Montenegro", "Macedonia del Norte", "Portugal", "Serbia", "España", 
+                       "Turquía", "Azerbaiyán", "Armenia", "Kazajistán"]
+}
 
 with tab5:
     st.subheader("🗺️ Análisis del Consumo de Alcohol por Zonas de Europa")

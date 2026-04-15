@@ -407,43 +407,47 @@ ggplot(top5_datos, aes(x = reorder(pais, -variacion), y = variacion)) +
 
 
 ```{r mapa-calor-europa, echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=8}
-# 1. Obtener el mapa de Europa
-europe_map <- ne_countries(scale = "medium", continent = "europe", returnclass = "sf")
-
-# Limitar el mapa geográficamente para que no salga Rusia entera o islas muy lejanas
-europe_cropped <- st_crop(europe_map, xmin = -25, xmax = 45, ymin = 34, ymax = 71)
-
-# 2. Preparar tus datos y unirlos al mapa
-datos_mapa <- datos_limpios %>%
-  filter(año %in% c(2020, 2022)) %>%
-  mutate(pais_join = tolower(trimws(pais))) %>%
-  mutate(pais_join = case_when(
-    pais_join == "federacion de rusia" ~ "rusia",
-    pais_join == "republica de moldavia" ~ "moldavia",
-    pais_join == "chequia" ~ "republica checa",
-    TRUE ~ pais_join
-  ))
-
-quitar_tildes <- function(cadena) {
-  chartr("áéíóú", "aeiou", cadena)
+# Definir diccionario para que todos los nombres coincidan
+normalizar_nombres <- function(p) {
+  p <- tolower(trimws(p))
+  p <- chartr("áéíóú", "aeiou", p)
+  case_when(
+    p %in% c("federacion de rusia", "rusia") ~ "rusia",
+    p %in% c("republica de moldavia", "moldavia") ~ "moldavia",
+    p %in% c("chequia", "republica checa") ~ "republica checa",
+    p == "bosnia y herzegovina" ~ "bosnia y herzegovina",
+    p == "macedonia del norte" ~ "macedonia del norte",
+    p == "reino unido" ~ "reino unido",
+    p == "paises bajos" ~ "paises bajos",
+    p == "turquia" ~ "turquia",
+    p == "azerbaiyan" ~ "azerbaiyan",
+    p == "kazajistan" ~ "kazajistan",
+    TRUE ~ p
+  )
 }
 
-# Aplicamos la limpieza a ambos lados para asegurar el "match"
-datos_mapa$pais_join <- quitar_tildes(datos_mapa$pais_join)
+# Preparar datos y unir
+datos_mapa <- datos_limpios %>%
+  filter(año %in% c(2020, 2022)) %>%
+  mutate(pais_join = normalizar_nombres(pais))
+
+# Limpiamos los nombres del mapa
+europe_map <- ne_countries(scale = "medium", continent = "europe", returnclass = "sf")
+europe_cropped <- st_crop(europe_map, xmin = -25, xmax = 45, ymin = 34, ymax = 71)
 
 mapa_final <- europe_cropped %>%
-  mutate(nombre_mapa = quitar_tildes(tolower(trimws(name_es)))) %>%
+  mutate(nombre_mapa = normalizar_nombres(name_es)) %>%
   left_join(datos_mapa, by = c("nombre_mapa" = "pais_join"))
 
-# 3. Función para generar el mapa base
+# Creando el mapa de calor
 crear_mapa <- function(data_year, titulo) {
   ggplot(data = data_year) +
-    geom_sf(aes(fill = litros_por_persona), color = "white", size = 0.1) +
+    geom_sf(aes(fill = litros_por_persona), color = "white", size = 0.2) + # Aumenté un poco el tamaño del borde
     scale_fill_gradientn(
-      colors = c("#FFFFCC", "#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"),
-      name = "Litros per cápita",
-      na.value = "grey90",
-      limits = c(0, max(datos_limpios$litros_por_persona, na.rm = TRUE)) # Escala unificada
+      colors = c("#FFFFCC", "#FED976", "#FD8D3C", "#E31A1C", "#800026"),
+      name = "Litros p/p",
+      na.value = "grey90", # Países sin datos aparecerán en gris claro
+      limits = c(0, max(datos_limpios$litros_por_persona, na.rm = TRUE))
     ) +
     labs(title = titulo) +
     theme_minimal() +
@@ -452,19 +456,22 @@ crear_mapa <- function(data_year, titulo) {
       axis.ticks = element_blank(),
       panel.grid = element_blank(),
       legend.position = "bottom",
-      legend.key.width = unit(1.5, "cm")
+      legend.key.width = unit(1, "cm"),
+      plot.title = element_text(hjust = 0.5, face = "bold")
     )
 }
 
-# 4. Generar los dos mapas por separado
-mapa_2020 <- crear_mapa(mapa_final %>% filter(año == 2020), "Consumo de Alcohol (2020)")
-mapa_2022 <- crear_mapa(mapa_final %>% filter(año == 2022), "Consumo de Alcohol (2022)")
+# Generando los mapas
+mapa_2020 <- crear_mapa(mapa_final %>% filter(año == 2020), "Consumo 2020")
+mapa_2022 <- crear_mapa(mapa_final %>% filter(año == 2022), "Consumo 2022")
 
-# 5. Combinar los mapas lado a lado con una sola leyenda
-plot_grid(mapa_2020 + theme(legend.position="none"), 
-          mapa_2022 + theme(legend.position="none"), 
-          ncol = 2, labels = "AUTO") %>%
-  plot_grid(get_legend(mapa_2020), ncol = 1, rel_heights = c(1, 0.1))
+# Colocamos los mapas al lado del otro
+plot_grid(
+  mapa_2020 + theme(legend.position="none"), 
+  mapa_2022 + theme(legend.position="none"), 
+  ncol = 2, labels = "AUTO"
+) %>%
+  plot_grid(get_legend(mapa_2020 + theme(legend.position="bottom")), ncol = 1, rel_heights = c(1, 0.1))
 
 ```
 
