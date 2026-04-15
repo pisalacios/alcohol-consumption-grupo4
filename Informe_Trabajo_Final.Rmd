@@ -3,7 +3,7 @@ output:
   pdf_document:
     number_sections: true
     latex_engine: xelatex
-bibliography: referencias.bib
+bibliography: Scripts/referencias.bib
 link-citations: true
 nocite: '@*'
 ---
@@ -68,14 +68,18 @@ library(tidyverse)
 library(knitr)
 library(kableExtra)
 library(scales)
+library(openxlsx)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(cowplot)
+library(tinytex)
 ```
 
 ```{r lectura-datos, include=FALSE}
-# 1. Cargamos la librería
-library(readr)
-
 # 2. Leemos el archivo (R lo encontrará porque está en la misma carpeta)
-datos_limpios <- read_csv("datos_pisa_limpios.csv")
+datos_limpios <- read.xlsx("Data\\Clean\\Alcohol_Filtrado.xlsx")
+datos_limpios <- as.data.frame(datos_limpios)
 
 # 3. Mostramos un resumen para confirmar
 summary(datos_limpios)
@@ -228,7 +232,7 @@ resumen_alcohol <- datos_limpios %>%
 knitr::kable(resumen_alcohol, 
              digits = 2, 
              caption = "Análisis Descriptivo del Consumo de Alcohol Per Cápita en Europa",
-             col.names = c("Periodo", "N° de Registros", "Media (L)", "Varianza", "Desv. Estándar"))
+             col.names = c("Temporada", "N° de Registros", "Media", "Varianza", "Desv. Estándar"))
 ```
 
 
@@ -324,7 +328,6 @@ Debido a que el CV supera el 20% y sigue subiendo, el promedio regional es cada 
  Este análisis de cajas y bigotes evalúa la distribución del consumo de alcohol en Europa para los años 2020 y 2022, permitiendo identificar países con patrones de consumo significativamente alejados del comportamiento grupal.
 
 ```{r boxplot-identificado, echo=FALSE, message=FALSE, warning=FALSE}
-library(ggplot2)
 library(dplyr)
 
 # 1. Filtramos y preparamos los datos para los años clave
@@ -404,12 +407,6 @@ ggplot(top5_datos, aes(x = reorder(pais, -variacion), y = variacion)) +
 
 
 ```{r mapa-calor-europa, echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=8}
-library(tidyverse)
-library(sf)
-library(rnaturalearth)
-library(rnaturalearthdata)
-library(cowplot) # Para poner los mapas lado a lado
-
 # 1. Obtener el mapa de Europa
 europe_map <- ne_countries(scale = "medium", continent = "europe", returnclass = "sf")
 
@@ -417,15 +414,26 @@ europe_map <- ne_countries(scale = "medium", continent = "europe", returnclass =
 europe_cropped <- st_crop(europe_map, xmin = -25, xmax = 45, ymin = 34, ymax = 71)
 
 # 2. Preparar tus datos y unirlos al mapa
-# Filtrar años 2020 y 2022
 datos_mapa <- datos_limpios %>%
-  filter(año %in% c(2020, 2022))
+  filter(año %in% c(2020, 2022)) %>%
+  mutate(pais_join = tolower(trimws(pais))) %>%
+  mutate(pais_join = case_when(
+    pais_join == "federacion de rusia" ~ "rusia",
+    pais_join == "republica de moldavia" ~ "moldavia",
+    pais_join == "chequia" ~ "republica checa",
+    TRUE ~ pais_join
+  ))
 
-# Unir datos al mapa (Asegúrate que la columna 'pais' coincida con 'name' o 'name_long' del mapa)
-# Si tus países están en español, necesitarás un paso extra de traducción aquí.
+quitar_tildes <- function(cadena) {
+  chartr("áéíóú", "aeiou", cadena)
+}
+
+# Aplicamos la limpieza a ambos lados para asegurar el "match"
+datos_mapa$pais_join <- quitar_tildes(datos_mapa$pais_join)
+
 mapa_final <- europe_cropped %>%
-  left_join(datos_mapa, by = c("name" = "pais")) %>% # Intenta 'name' o 'name_long'
-  filter(!is.na(año)) # Eliminar países del mapa sin datos
+  mutate(nombre_mapa = quitar_tildes(tolower(trimws(name_es)))) %>%
+  left_join(datos_mapa, by = c("nombre_mapa" = "pais_join"))
 
 # 3. Función para generar el mapa base
 crear_mapa <- function(data_year, titulo) {
@@ -449,8 +457,8 @@ crear_mapa <- function(data_year, titulo) {
 }
 
 # 4. Generar los dos mapas por separado
-mapa_2020 <- crear_mapa(filter(mapa_final, año == 2020), "Consumo de Alcohol en Europa (2020)")
-mapa_2022 <- crear_mapa(filter(mapa_final, año == 2022), "Consumo de Alcohol en Europa (2022)")
+mapa_2020 <- crear_mapa(mapa_final %>% filter(año == 2020), "Consumo de Alcohol (2020)")
+mapa_2022 <- crear_mapa(mapa_final %>% filter(año == 2022), "Consumo de Alcohol (2022)")
 
 # 5. Combinar los mapas lado a lado con una sola leyenda
 plot_grid(mapa_2020 + theme(legend.position="none"), 
