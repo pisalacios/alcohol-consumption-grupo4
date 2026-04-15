@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 import openpyxl as op
 
-alcohol = pd.read_excel("Data\\Clean\\Alcohol_Filtrado.xlsx")
+alcohol = pd.read_excel("Data/Clean/Alcohol_Filtrado.xlsx")
 
     # Configuración de la página
 
