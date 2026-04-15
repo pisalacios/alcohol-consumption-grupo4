@@ -267,21 +267,37 @@ with tab4:
             f"durante el periodo **{periodo_seleccionado}**.")
 
 
+    # Compatibilizando los nombres del excel con los nombres de plotly
+    mapeo_nombres = {
+        "Alemania": "Germany", "Austria": "Austria", "Bélgica": "Belgium", "Bulgaria": "Bulgaria",
+        "Chequia": "Czech Republic", "Dinamarca": "Denmark", "Eslovaquia": "Slovakia",
+        "Eslovenia": "Slovenia", "España": "Spain", "Estonia": "Estonia", "Finlandia": "Finland",
+        "Francia": "France", "Grecia": "Greece", "Hungría": "Hungary", "Irlanda": "Ireland",
+        "Islandia": "Iceland", "Italia": "Italy", "Letonia": "Latvia", "Lituania": "Lithuania",
+        "Luxemburgo": "Luxembourg", "Noruega": "Norway", "Países Bajos": "Netherlands",
+        "Polonia": "Poland", "Portugal": "Portugal", "Reino Unido": "United Kingdom",
+        "Rumanía": "Romania", "Suecia": "Sweden", "Suiza": "Switzerland", "Serbia": "Serbia",
+        "Croacia": "Croatia", "Bielorrusia": "Belarus", "Georgia": "Georgia", "Albania": "Albania",
+        "Chipre": "Cyprus", "Malta": "Malta", "Montenegro": "Montenegro", 
+        "Macedonia del Norte": "North Macedonia", "Turquía": "Turkey", 
+        "Azerbaiyán": "Azerbaijan", "Armenia": "Armenia", "Kazajistán": "Kazakhstan"
+    }
+
     # Definiendo las zonas por las regiones de Europa para la pestaña 5
-zonas_europa = {
-    "Europa del Norte": ["Dinamarca", "Estonia", "Finlandia", "Islandia", "Irlanda", "Letonia", 
-                         "Lituania", "Noruega", "Suecia", "Reino Unido"],
+    zonas_europa = {
+        "Europa del Norte": ["Dinamarca", "Estonia", "Finlandia", "Islandia", "Irlanda", "Letonia", 
+                             "Lituania", "Noruega", "Suecia", "Reino Unido"],
 
-    "Europa Occidental": ["Austria", "Bélgica", "Francia", "Alemania", "Luxemburgo", "Países Bajos", 
-                          "Suiza"],
+        "Europa Occidental": ["Austria", "Bélgica", "Francia", "Alemania", "Luxemburgo", 
+                              "Países Bajos", "Suiza"],
 
-    "Europa Central y del Este": ["Bulgaria", "Chequia", "Hungría", "Polonia", "Rumanía", 
-                                  "Eslovaquia", "Eslovenia", "Croacia", "Bielorrusia", "Georgia"],
+        "Europa Central y del Este": ["Bulgaria", "Chequia", "Hungría", "Polonia", "Rumanía", 
+                                      "Eslovaquia", "Eslovenia", "Croacia", "Bielorrusia", "Georgia"],
 
-    "Europa del Sur": ["Albania", "Bosnia y Herzegovina", "Chipre", "Grecia", "Italia", "Malta", 
-                       "Montenegro", "Macedonia del Norte", "Portugal", "Serbia", "España", 
-                       "Turquía", "Azerbaiyán", "Armenia", "Kazajistán"]
-}
+        "Europa del Sur": ["Albania", "Chipre", "Grecia", "Italia", "Malta", "Montenegro", 
+                           "Macedonia del Norte", "Portugal", "Serbia", "España", "Turquía", 
+                           "Azerbaiyán", "Armenia", "Kazajistán"]
+    }
 
 with tab5:
     st.subheader("🗺️ Análisis del Consumo de Alcohol por Zonas de Europa")
@@ -302,15 +318,17 @@ with tab5:
 
         # Que se agrupe por país el consumo de los años y saque la media
     df_geo = df_mapa.groupby('pais')['litros_por_persona'].mean().reset_index()
+    
+        # Compatibilizando los nombres como se definió antes
+    df_geo['pais_plotly'] = df_geo['pais'].map(mapeo_nombres).fillna(df_geo['pais'])
 
         # Gráfico 1 - Mapa Coroplético
 
     fig_mapa = px.choropleth(
         df_geo,
-        locations="pais",
+        locations="pais_plotly",
         locationmode="country names",
         color="litros_por_persona",
-        hover_name="pais",
         color_continuous_scale=['#003366', '#0059b3', '#3399ff'],
         labels={'litros_por_persona': 'Litros p/p'},
         scope="europe",                                     # que solo muestre a europa
@@ -321,9 +339,8 @@ with tab5:
     fig_mapa.update_geos(
         showcountries=True,         # separación de lineas de los países
         countrycolor="#444",        # color de las lineas
-        showcoastlines=True,        # lineas de las costas
         fitbounds="locations" if zona_seleccionada != "Toda Europa" else None,  # el zoom a las zonas selecionadas
-        visible=False               # para ocultar del fondo que vienen por defecto
+        visible=True              # para ocultar del fondo que vienen por defecto
     )
 
     fig_mapa.update_layout(
