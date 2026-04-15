@@ -23,3 +23,10 @@ Evaluar de manera comparativa los patrones de consumo de alcohol en la població
 - Evaluar la homogeneidad de los datos a través del Coeficiente de Variación, con el fin de identificar qué tan representativo es el promedio regional en cada temporada de la investigación.
 - Identificar y analizar los datos atípicos del consumo de alcohol en 2020 y 2022 para señalar que países presentaron comportamientos extremos durante y después de la pandemia 
 
+---
+
+<small>Informe Estadístico con Rmarkdown: [https://alcohol-consumption-grupo4.onrender.com/Informe_Trabajo_Final.pdf](https://alcohol-consumption-grupo4.onrender.com/Informe_Trabajo_Final.pdf)</small>
+
+<small>Dashboard con streamlit: [https://consumo-alcohol-grupo4-proyecto.streamlit.app/](https://consumo-alcohol-grupo4-proyecto.streamlit.app/)</small>
+
+![R](https://img.shields.io/badge/R-276DC3?style=flat-square) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square)
